@@ -1,0 +1,92 @@
+{
+  "name": "iobroker.remeha-home",
+  "version": "0.0.1",
+  "description": "Connect your Remeha Home System with ioBroker",
+  "author": {
+    "name": "simatec",
+    "email": "simatec@simateccloud.de"
+  },
+  "homepage": "https://github.com/simatec/ioBroker.remeha-home",
+  "license": "MIT",
+  "keywords": [
+    "ioBroker",
+    "Remeha",
+    "Remeha-Home",
+    "Remeha Home",
+    "BDR",
+    "bdrthermea"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simatec/ioBroker.remeha-home.git"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.1.6",
+    "crypto": "^1.0.1",
+    "axios": "^1.7.5",
+    "base-64": "^1.0.0",
+    "qs": "^6.13.0",
+    "base64url": "^3.0.1",
+    "querystring": "^0.2.1",
+    "url": "^0.11.4",
+    "tough-cookie": "^4.1.4"
+  },
+  "devDependencies": {
+    "@alcalzone/release-script": "^3.8.0",
+    "@alcalzone/release-script-plugin-iobroker": "^3.7.2",
+    "@alcalzone/release-script-plugin-license": "^3.7.0",
+    "@alcalzone/release-script-plugin-manual-review": "^3.7.0",
+    "@iobroker/adapter-dev": "^1.3.0",
+    "@iobroker/testing": "^4.1.3",
+    "chai": "^4.5.0",
+    "chai-as-promised": "^7.1.2",
+    "eslint": "^9.9.1",
+    "mocha": "^10.7.3",
+    "sinon": "^18.0.0",
+    "sinon-chai": "^3.7.0"
+  },
+  "main": "main.js",
+  "files": [
+    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).json",
+    "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+    "admin{,/!(i18n)/**}/flat.txt",
+    "lib/",
+    "!lib/**/*.{sh,bat,log}",
+    "!.dev-server",
+    "!.vscode",
+    "!.github",
+    "!.git",
+    "!.DS_Store",
+    "!.gitignore",
+    "!.gitattributes",
+    "!node_modules",
+    "!tasks",
+    "!.idea",
+    "!test",
+    "www/",
+    "io-package.json",
+    "LICENSE",
+    "main.js"
+  ],
+  "scripts": {
+    "test": "npm run test:package && npm run test:unit",
+    "test:package": "mocha test/package --exit",
+    "test:unit": "mocha test/unit --exit",
+    "test:integration": "mocha test/integration --exit",
+    "release": "release-script",
+    "release-patch": "release-script patch --yes",
+    "release-minor": "release-script minor --yes",
+    "release-major": "release-script major --yes",
+    "translate": "translate-adapter",
+    "dev-server-run": "dev-server run remeha-home",
+    "dev-server-watch": "dev-server watch remeha-home",
+    "npm": "npm install"
+  },
+  "bugs": {
+    "url": "https://github.com/simatec/ioBroker.remeha-home/issues"
+  },
+  "readmeFilename": "README.md"
+}

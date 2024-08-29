@@ -1,0 +1,121 @@
+{
+  "common": {
+    "name": "remeha-home",
+    "version": "0.0.1",
+    "news": {
+      "0.0.1": {
+        "en": "(simatec) First Commit",
+        "de": "(simatec) Erstes Commit",
+        "ru": "(simatec) First Commit",
+        "pt": "(simatec) Primeiro compromisso",
+        "nl": "(simatec) Eerste commit",
+        "fr": "(simatec) Premier engagement",
+        "it": "(simatec) Primo mandato",
+        "es": "(simatec) Primera comunicación",
+        "pl": "(simatec) Pierwszy komunikat",
+        "uk": "(Simatec) Перший товар",
+        "zh-cn": "(静音) 第一个提交"
+      }
+    },
+    "titleLang": {
+      "en": "Remeha Home",
+      "de": "Remeha Home",
+      "ru": "Remeha Home",
+      "pt": "Remeha Home",
+      "nl": "Remeha Home",
+      "fr": "Remeha Home",
+      "it": "Remeha Home",
+      "es": "Remeha Home",
+      "pl": "Remeha Home",
+      "zh-cn": "Remeha Home",
+      "uk": "Remeha Home"
+    },
+    "desc": {
+      "en": "Connect your Remeha Home System with ioBroker",
+      "de": "Verbinden Sie Ihre Remeha Home System mit ioBroker",
+      "ru": "Подключите Remeha Home System с ioBroker",
+      "pt": "Conecte o seu Remeha Home System com ioBroker",
+      "nl": "Sluit uw Remeha Home System met ioBroker",
+      "fr": "Connectez votre Remeha Home System avec ioBroker",
+      "it": "Collega il tuo Remeha Home System con ioBroker",
+      "es": "Conecta tu Remeha Home System con ioBroker",
+      "pl": "Połącz Remeha Home System z joBroker",
+      "uk": "Зв'язатися з нами Remeha Головна Система з ioBroker",
+      "zh-cn": "连接您的 带ioBroker的Remeha家庭系统"
+    },
+    "authors": [
+      "simatec <simatec@simateccloud.de>"
+    ],
+    "keywords": [
+      "Remeha",
+      "Remeha-Home",
+      "Remeha Home",
+      "BDR",
+      "bdrthermea"
+    ],
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
+    "platform": "Javascript/Node.js",
+    "icon": "remeha-home.png",
+    "enabled": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/simatec/ioBroker.remeha-home/master/admin/remeha-home.png",
+    "readme": "https://github.com/simatec/ioBroker.remeha-home/blob/master/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "messaging",
+    "compact": true,
+    "connectionType": "cloud",
+    "dataSource": "poll",
+    "tier": 2,
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.19"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=6.0.0"
+      }
+    ]
+  },
+  "native": {
+    "account": "",
+    "pollInterval": 600
+  },
+  "encryptedNative": [
+    "password"
+  ],
+  "protectedNative": [
+    "password"
+  ],
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
+}
