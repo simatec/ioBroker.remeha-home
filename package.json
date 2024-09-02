@@ -28,7 +28,8 @@
     "crypto": "^1.0.1",
     "axios": "^1.7.5",
     "qs": "^6.13.0",
-    "url": "^0.11.4"
+    "url": "^0.11.4",
+    "base64url": "^3.0.1"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.8.0",
