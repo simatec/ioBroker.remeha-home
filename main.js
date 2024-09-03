@@ -6,6 +6,16 @@ const crypto = require('crypto');
 const qs = require('qs');
 const { URL, URLSearchParams } = require('url');
 const base64url = require('base64url');
+const got = require('got');
+const { CookieJar } = require('tough-cookie');
+const axiosCookieJarSupport = require('axios-cookiejar-support').wrapper;
+// Erstelle einen neuen CookieJar
+const cookieJar = new CookieJar();
+
+// Füge CookieJar-Support zu axios hinzu
+//axiosCookieJarSupport(axios);
+
+//axios.defaults.headers.common['Access-Control-Expose-Headers'] = 'location';
 
 class RemehaHomeAdapter extends utils.Adapter {
     constructor(options) {
@@ -20,11 +30,22 @@ class RemehaHomeAdapter extends utils.Adapter {
         this.codeVerifier = crypto.randomBytes(32).toString('hex');
         this.codeChallenge = '';
         this.state = '';
-        this.client = axios.create({
-            timeout: 10000,
+        this.client = axiosCookieJarSupport(axios.create({
+            jar: cookieJar,
+            timeout: 5000,
             withCredentials: true,
             baseURL: 'https://remehalogin.bdrthermea.net'
-        });
+        }));
+
+        /*
+         this.client = got.extend({
+             prefixUrl: 'https://remehalogin.bdrthermea.net',  // Basis-URL für alle Anfragen
+             //responseType: 'text', // Antwort wird automatisch als JSON geparsed
+             timeout: 5000,        // Timeout für Anfragen
+             //retry: 2,             // Anzahl der Wiederholungen bei Fehlern
+             // Weitere Optionen kannst du hier hinzufügen
+         });
+         */
 
         this.client.interceptors.response.use(response => {
             const setCookieHeader = response.headers['set-cookie'];
@@ -36,6 +57,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             }
             return response;
         });
+
 
 
         this.client.interceptors.request.use(request => {
@@ -157,13 +179,28 @@ class RemehaHomeAdapter extends utils.Adapter {
                     prompt: 'login',
                     signUp: 'False'
                 },
-                /*
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                */
             });
 
+            /*
+            const response = await this.client.get(`bdrb2cprod.onmicrosoft.com/oauth2/v2.0/authorize?`, {
+                searchParams: {
+                    response_type: 'code',
+                    client_id: '6ce007c6-0628-419e-88f4-bee2e6418eec',
+                    redirect_uri: 'com.b2c.remehaapp://login-callback',
+                    scope: 'openid https://bdrb2cprod.onmicrosoft.com/iotdevice/user_impersonation offline_access',
+                    state: this.state,
+                    code_challenge: codeChallengeSha256,
+                    code_challenge_method: 'S256',
+                    p: 'B2C_1A_RPSignUpSignInNewRoomV3.1',
+                    brand: 'remeha',
+                    lang: 'en',
+                    nonce: 'defaultNonce',
+                    prompt: 'login',
+                    signUp: 'False'
+                },
+                followRedirect: true,
+            });
+            */
             this.log.debug('Response get Auth: ' + response.status);
             this.log.debug('Response get header: ' + response.headers);
             this.log.debug('x-request-id: ' + response.headers["x-request-id"]);
@@ -183,9 +220,11 @@ class RemehaHomeAdapter extends utils.Adapter {
                 }
 
             }
+
             const csrfToken = this.getCookie('x-ms-cpim-csrf');
             this.csrfToken = csrfToken;
             this.log.debug('csrfToken Neu: ' + this.csrfToken);
+
 
             // Extract the request_id from headers
             const requestId = response.headers['x-request-id'];
@@ -234,7 +273,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 },
                 {
                     params: {
-                        tx: encodeURIComponent(`StateProperties=${stateProperties}`),
+                        tx: `StateProperties=${stateProperties}`,
                         p: 'B2C_1A_RPSignUpSignInNewRoomv3.1',
                     },
                     headers: {
@@ -243,6 +282,21 @@ class RemehaHomeAdapter extends utils.Adapter {
                     }
                 }
             );
+
+            /*
+             const response = await this.client.post(`bdrb2cprod.onmicrosoft.com/B2C_1A_RPSignUpSignInNewRoomv3.1/SelfAsserted`, {
+                 searchParams: {
+                     tx: encodeURIComponent(`StateProperties=${stateProperties}`),
+                     p: 'B2C_1A_RPSignUpSignInNewRoomv3.1',
+                 },
+                 headers: {
+                     'x-csrf-token': csrfToken,
+                     //'Content-Type': 'application/x-www-form-urlencoded'
+                 },
+                 followRedirect: true,
+             });
+             */
+
 
             this.log.debug('Status Text:' + response.statusText);
             this.log.debug('Login response status:' + response.status);
@@ -259,20 +313,37 @@ class RemehaHomeAdapter extends utils.Adapter {
 
         await this.sleep(1000);
 
+        const params = new URLSearchParams({
+            rememberMe: false,
+            csrf_token: csrfToken,
+            tx: `StateProperties=${stateProperties}`,
+            p: 'B2C_1A_RPSignUpSignInNewRoomv3.1',
+        }).toString();
         try {
+
             const response = await this.client.get(`/bdrb2cprod.onmicrosoft.com/B2C_1A_RPSignUpSignInNewRoomv3.1/api/CombinedSigninAndSignup/confirmed`,
                 {
                     params: {
-                        rememberMe: 'false',
+                        rememberMe: false,
                         csrf_token: csrfToken,
-                        tx: encodeURIComponent(`StateProperties=${stateProperties}`),
+                        tx: `StateProperties=${stateProperties}`,
                         p: 'B2C_1A_RPSignUpSignInNewRoomv3.1',
                     },
-                    withCredentials: true,
                     maxRedirects: 0,
-                    validateStatus: (status) => true
                 });
 
+            /*
+             const url = `bdrb2cprod.onmicrosoft.com/B2C_1A_RPSignUpSignInNewRoomv3.1/api/CombinedSigninAndSignup/confirmed`;
+             const response = await this.client.get(url, {
+                 searchParams: {
+                     rememberMe: 'false',
+                     csrf_token: encodeURIComponent(csrfToken),
+                     tx: encodeURIComponent(`StateProperties=${stateProperties}`),
+                     p: 'B2C_1A_RPSignUpSignInNewRoomv3.1',
+                 },
+                 followRedirect: false, // Verhindert automatische Weiterleitungen
+             });
+             */
             this.log.debug('Login response1 status:' + response.status);
             this.log.debug('Login response1 headers:' + response.headers);
 
@@ -301,14 +372,17 @@ class RemehaHomeAdapter extends utils.Adapter {
             this.log.debug('Authorization code not found in redirect URL.');
             return null;
 
+
         } catch (error) {
             this.log.error('Error get code:' + error.message);
+            this.log.error('Error get code:' + JSON.stringify(error));
             if (error.response) {
                 this.log.error('Response status:' + error.response.status);
                 //this.log.error('Response status:' + error.response.headers);
             }
             throw error;
         }
+
     }
     /*
     extractAuthorizationCode(response) {
