@@ -1,21 +1,14 @@
 'use strict';
 
 const utils = require('@iobroker/adapter-core');
-const axios = require('axios');
 const crypto = require('crypto');
-const qs = require('qs');
 const { URL, URLSearchParams } = require('url');
 const base64url = require('base64url');
-const got = require('got');
+//const got = require('got');
 const { CookieJar } = require('tough-cookie');
-const axiosCookieJarSupport = require('axios-cookiejar-support').wrapper;
-// Erstelle einen neuen CookieJar
+const { got } = await import('got');
+
 const cookieJar = new CookieJar();
-
-// Füge CookieJar-Support zu axios hinzu
-//axiosCookieJarSupport(axios);
-
-//axios.defaults.headers.common['Access-Control-Expose-Headers'] = 'location';
 
 class RemehaHomeAdapter extends utils.Adapter {
     constructor(options) {
@@ -23,49 +16,19 @@ class RemehaHomeAdapter extends utils.Adapter {
         this.cookies = {};
         this.account = '';
         this.password = '';
-        this.pollInterval = 600;
+        this.pollInterval = 60;
         this.accessToken = null;
         this.refreshToken = null;
         this.csrfToken = null;
         this.codeVerifier = crypto.randomBytes(32).toString('hex');
         this.codeChallenge = '';
         this.state = '';
-        this.client = axiosCookieJarSupport(axios.create({
-            jar: cookieJar,
-            timeout: 5000,
-            withCredentials: true,
-            baseURL: 'https://remehalogin.bdrthermea.net'
-        }));
-
-        /*
          this.client = got.extend({
-             prefixUrl: 'https://remehalogin.bdrthermea.net',  // Basis-URL für alle Anfragen
-             //responseType: 'text', // Antwort wird automatisch als JSON geparsed
-             timeout: 5000,        // Timeout für Anfragen
-             //retry: 2,             // Anzahl der Wiederholungen bei Fehlern
-             // Weitere Optionen kannst du hier hinzufügen
+             prefixUrl: 'https://remehalogin.bdrthermea.net',
+             timeout: 5000,
+             cookieJar,
          });
-         */
-
-        this.client.interceptors.response.use(response => {
-            const setCookieHeader = response.headers['set-cookie'];
-            if (setCookieHeader) {
-                setCookieHeader.forEach(cookieString => {
-                    const [name, ...rest] = cookieString.split(';')[0].split('=');
-                    this.cookies[name] = rest.join('=');
-                });
-            }
-            return response;
-        });
-
-
-
-        this.client.interceptors.request.use(request => {
-            console.log('Starting Request', JSON.stringify(request, null, 2));
-            return request;
-        });
-
-
+         
         this.onReady = this.onReady.bind(this);
         this.onMessage = this.onMessage.bind(this);
         this.onStateChange = this.onStateChange.bind(this);
@@ -128,7 +91,7 @@ class RemehaHomeAdapter extends utils.Adapter {
 
     async poll() {
         try {
-            if (!this.accessToken || !await this.checkTokenValidity(this.accessToken)) {
+            if (this.accessToken === null || await this.checkTokenValidity(this.accessToken) !== 200) {
                 await this.resolveExternalData();
             }
             await this.updateDevices();
@@ -137,51 +100,21 @@ class RemehaHomeAdapter extends utils.Adapter {
         }
     }
 
-    /*
-    async generateRandomState() {
-        const base64 = crypto.randomBytes(32).toString('base64');
-        return base64
-            .replace(/\+/g, '-')
-            .replace(/\//g, '_')
-            .replace(/=+$/, '');
-    }
-    */
-
     getCookie(name) {
         return this.cookies[name];
     }
 
     async resolveExternalData() {
         try {
-            //this.state = await this.generateRandomState();
             this.state = crypto.randomBytes(32).toString('base64url');
             const codeChallenge = await this.generateRandomToken(64);
             this.codeChallenge = codeChallenge;
             const codeChallengeSha256 = await this.computeCodeChallenge(codeChallenge);
 
-            this.log.debug(`Using state: ${this.state}`);
-            this.log.debug(`Code challenge: ${codeChallenge}`);
-            this.log.debug(`Code codeChallengeSha256: ${codeChallengeSha256}`);
-
-            const response = await this.client.get(`/bdrb2cprod.onmicrosoft.com/oauth2/v2.0/authorize`, {
-                params: {
-                    response_type: 'code',
-                    client_id: '6ce007c6-0628-419e-88f4-bee2e6418eec',
-                    redirect_uri: 'com.b2c.remehaapp://login-callback',
-                    scope: 'openid https://bdrb2cprod.onmicrosoft.com/iotdevice/user_impersonation offline_access',
-                    state: this.state,
-                    code_challenge: codeChallengeSha256,
-                    code_challenge_method: 'S256',
-                    p: 'B2C_1A_RPSignUpSignInNewRoomV3.1',
-                    brand: 'remeha',
-                    lang: 'en',
-                    nonce: 'defaultNonce',
-                    prompt: 'login',
-                    signUp: 'False'
-                },
-            });
-
-            /*
+            //this.log.debug(`Using state: ${this.state}`);
+            //this.log.debug(`Code challenge: ${codeChallenge}`);
+            //this.log.debug(`Code codeChallengeSha256: ${codeChallengeSha256}`);
+            
             const response = await this.client.get(`bdrb2cprod.onmicrosoft.com/oauth2/v2.0/authorize?`, {
                 searchParams: {
                     response_type: 'code',
@@ -200,11 +133,9 @@ class RemehaHomeAdapter extends utils.Adapter {
                 },
                 followRedirect: true,
             });
-            */
-            this.log.debug('Response get Auth: ' + response.status);
-            this.log.debug('Response get header: ' + response.headers);
-            this.log.debug('x-request-id: ' + response.headers["x-request-id"]);
-
+            
+            this.log.debug('Response get Auth: ' + response.statusCode);
+            //this.log.debug('x-request-id: ' + response.headers["x-request-id"]);
 
             let csrfTokenCookie;
             const cookies = response.headers['set-cookie'];
@@ -213,18 +144,13 @@ class RemehaHomeAdapter extends utils.Adapter {
                 csrfTokenCookie = cookies.find(cookie => cookie.startsWith('x-ms-cpim-csrf=') && cookie.includes('domain=remehalogin.bdrthermea.net'));
 
                 if (csrfTokenCookie) {
-                    //this.csrfToken = csrfTokenCookie.split(';')[0].replace("x-ms-cpim-csrf=", "").replace(/;$/, "");
-                    this.log.debug('csrfToken Alt: ' + csrfTokenCookie.split(';')[0].replace("x-ms-cpim-csrf=", "").replace(/;$/, ""));
+                    this.csrfToken = csrfTokenCookie.split(';')[0].replace("x-ms-cpim-csrf=", "").replace(/;$/, "");
+                    //this.log.debug('csrfToken: ' + csrfTokenCookie.split(';')[0].replace("x-ms-cpim-csrf=", "").replace(/;$/, ""));
                 } else {
                     throw new Error('CSRF-Token not found in response headers.');
                 }
 
             }
-
-            const csrfToken = this.getCookie('x-ms-cpim-csrf');
-            this.csrfToken = csrfToken;
-            this.log.debug('csrfToken Neu: ' + this.csrfToken);
-
 
             // Extract the request_id from headers
             const requestId = response.headers['x-request-id'];
@@ -232,22 +158,14 @@ class RemehaHomeAdapter extends utils.Adapter {
             // Create state_properties JSON and encode it in base64 URL-safe format
             const statePropertiesJson = `{"TID":"${requestId}"}`;
             const stateProperties = base64url.encode(statePropertiesJson);
-            /*
-            const stateProperties = Buffer.from(statePropertiesJson, 'ascii')
-                .toString('base64')
-                .replace(/\+/g, '-')
-                .replace(/\//g, '_')
-                .replace(/=+$/, '');
-            */
-
-            this.log.debug(`stateProperties: ${stateProperties}`);
+            //this.log.debug(`stateProperties: ${stateProperties}`);
 
             const authorizationCode = await this.login(stateProperties, this.csrfToken);
-            this.log.debug(`authorizationCode: ${authorizationCode}`)
+            //this.log.debug(`authorizationCode: ${authorizationCode}`)
 
-            //if (!authorizationCode) throw new Error('Authorization code is missing.');
+            if (!authorizationCode) throw new Error('Authorization code is missing.');
 
-            //await this.fetchAccessToken(authorizationCode);
+            await this.fetchAccessToken(authorizationCode);
         } catch (error) {
             this.log.error(`Error resolving external data: ${error.message}`);
         }
@@ -262,45 +180,28 @@ class RemehaHomeAdapter extends utils.Adapter {
 
     async login(stateProperties, csrfToken) {
         try {
-            this.log.debug(`Attempting login with stateProperties: ${stateProperties}`);
-            this.log.debug(`CSRF-Token: ${csrfToken}`);
-
-            const response = await this.client.post(`/bdrb2cprod.onmicrosoft.com/B2C_1A_RPSignUpSignInNewRoomv3.1/SelfAsserted`,
-                {
-                    request_type: 'RESPONSE',
-                    signInName: this.account,
-                    password: this.password,
-                },
-                {
-                    params: {
-                        tx: `StateProperties=${stateProperties}`,
-                        p: 'B2C_1A_RPSignUpSignInNewRoomv3.1',
-                    },
-                    headers: {
-                        'x-csrf-token': csrfToken,
-                        //'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }
-            );
-
-            /*
+            //this.log.debug(`Attempting login with stateProperties: ${stateProperties}`);
+            //this.log.debug(`CSRF-Token: ${csrfToken}`);
+            
              const response = await this.client.post(`bdrb2cprod.onmicrosoft.com/B2C_1A_RPSignUpSignInNewRoomv3.1/SelfAsserted`, {
                  searchParams: {
-                     tx: encodeURIComponent(`StateProperties=${stateProperties}`),
+                     tx: `StateProperties=${stateProperties}`,
                      p: 'B2C_1A_RPSignUpSignInNewRoomv3.1',
                  },
+                 form: {
+                    request_type: 'RESPONSE',
+                    signInName: this.account,
+                    password: this.password
+                },
                  headers: {
                      'x-csrf-token': csrfToken,
-                     //'Content-Type': 'application/x-www-form-urlencoded'
                  },
                  followRedirect: true,
              });
-             */
+             
 
 
-            this.log.debug('Status Text:' + response.statusText);
-            this.log.debug('Login response status:' + response.status);
-            this.log.debug('Login response headers:' + response.headers);
+            this.log.debug('Login response status:' + response.statusCode);
 
         } catch (error) {
             this.log.error('Error during login:' + error.message);
@@ -309,58 +210,26 @@ class RemehaHomeAdapter extends utils.Adapter {
             }
             throw error;
         }
-        this.log.debug('Part 2');
 
-        await this.sleep(1000);
-
-        const params = new URLSearchParams({
-            rememberMe: false,
-            csrf_token: csrfToken,
-            tx: `StateProperties=${stateProperties}`,
-            p: 'B2C_1A_RPSignUpSignInNewRoomv3.1',
-        }).toString();
         try {
-
-            const response = await this.client.get(`/bdrb2cprod.onmicrosoft.com/B2C_1A_RPSignUpSignInNewRoomv3.1/api/CombinedSigninAndSignup/confirmed`,
-                {
-                    params: {
-                        rememberMe: false,
-                        csrf_token: csrfToken,
-                        tx: `StateProperties=${stateProperties}`,
-                        p: 'B2C_1A_RPSignUpSignInNewRoomv3.1',
-                    },
-                    maxRedirects: 0,
-                });
-
-            /*
              const url = `bdrb2cprod.onmicrosoft.com/B2C_1A_RPSignUpSignInNewRoomv3.1/api/CombinedSigninAndSignup/confirmed`;
              const response = await this.client.get(url, {
                  searchParams: {
                      rememberMe: 'false',
-                     csrf_token: encodeURIComponent(csrfToken),
-                     tx: encodeURIComponent(`StateProperties=${stateProperties}`),
+                     csrf_token: csrfToken,
+                     tx: `StateProperties=${stateProperties}`,
                      p: 'B2C_1A_RPSignUpSignInNewRoomv3.1',
                  },
-                 followRedirect: false, // Verhindert automatische Weiterleitungen
+                 followRedirect: false
              });
-             */
-            this.log.debug('Login response1 status:' + response.status);
-            this.log.debug('Login response1 headers:' + response.headers);
+            
+            this.log.debug('Login response1 status:' + response.statusCode);
 
-            /*
-            const locationHeader = response1.headers['location'];
-            if (locationHeader) {
-                this.log.debug('Redirect URL:', locationHeader);
-                const url = new URL(locationHeader);
-                const code = url.searchParams.get('code');
-                
-                */
             const parsedCallbackUrl = new URL(response.headers.location);
             if (parsedCallbackUrl) {
                 const queryStringDict = parsedCallbackUrl.searchParams;
                 const code = queryStringDict.get('code');
                 if (code) {
-                    this.log.debug('Authorization code extracted:' + code);
                     return code;
                 } else {
                     this.log.debug('Authorization code not found');
@@ -378,28 +247,11 @@ class RemehaHomeAdapter extends utils.Adapter {
             this.log.error('Error get code:' + JSON.stringify(error));
             if (error.response) {
                 this.log.error('Response status:' + error.response.status);
-                //this.log.error('Response status:' + error.response.headers);
             }
             throw error;
         }
 
     }
-    /*
-    extractAuthorizationCode(response) {
-        const locationHeader = response.headers['location'];
-        if (locationHeader && locationHeader.includes('code=')) {
-            const url = new URL(locationHeader);
-            const code = url.searchParams.get('code');
-            if (code) {
-                this.log.debug('Authorization code extracted:', code);
-                return code;
-            }
-        }
-        this.log.debug('Authorization code not found in redirect URL.');
-        return null;
-    }
-    */
-
 
     async generateRandomToken(length) {
         return crypto.randomBytes(length).toString('base64url');
@@ -418,53 +270,44 @@ class RemehaHomeAdapter extends utils.Adapter {
         return base64Url;
     }
 
-    /*
-    async generateCodeChallenge(codeVerifier) {
-        const hash = crypto.createHash('sha256');
-        hash.update(codeVerifier);
-        const codeChallenge = hash.digest('base64')
-            .replace(/\+/g, '-')
-            .replace(/\//g, '_')
-            .replace(/=/g, '');
-        return codeChallenge;
-    }
-    */
-
     async fetchAccessToken(code) {
         try {
-            const tokenUrl = 'https://remehalogin.bdrthermea.net/bdrb2cprod.onmicrosoft.com/oauth2/v2.0/token';
-            const tokenParams = {
+            const grantParams = {
                 grant_type: 'authorization_code',
                 code: code,
                 redirect_uri: 'com.b2c.remehaapp://login-callback',
+                code_verifier: this.codeChallenge,
                 client_id: '6ce007c6-0628-419e-88f4-bee2e6418eec',
-                code_verifier: this.codeChallenge
             };
-
-            const response = await this.client.post(tokenUrl, qs.stringify(tokenParams), {
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            const response = await this.client.post('bdrb2cprod.onmicrosoft.com/oauth2/v2.0/token', {
+                searchParams: {
+                    p: 'B2C_1A_RPSignUpSignInNewRoomV3.1'
+                },
+                form: grantParams, // Hier werden die Parameter als Formulardaten gesendet
+                followRedirect: true, // Erlaubt Weiterleitungen
+                responseType: 'json' // Stellt sicher, dass die Antwort als JSON geparst wird
             });
-
-            this.accessToken = response.data.access_token;
-            this.refreshToken = response.data.refresh_token;
-            this.log.debug('Access Token:', this.accessToken);
+            this.log.debug('Access Token Stattus:' + response.statusCode);
+            this.accessToken = response.body.access_token;
+            this.refreshToken = response.body.refresh_token;
+            //this.log.debug('Access Token:' + this.accessToken);
             return this.accessToken;
         } catch (error) {
             this.log.error('Error fetching access token:', error.response ? error.response.data : error.message);
             throw error;
         }
     }
-
+    /*
     async refreshAccessToken() {
         try {
-            const response = await this.client.post('https://remehalogin.bdrthermea.net/bdrb2cprod.onmicrosoft.com/oauth2/v2.0/token', qs.stringify({
+            const response = await got.post('https://remehalogin.bdrthermea.net/bdrb2cprod.onmicrosoft.com/oauth2/v2.0/token', qs.stringify({
                 grant_type: 'refresh_token',
                 refresh_token: this.refreshToken,
                 client_id: '6ce007c6-0628-419e-88f4-bee2e6418eec'
             }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                
             });
 
             this.accessToken = response.data.access_token;
@@ -474,48 +317,53 @@ class RemehaHomeAdapter extends utils.Adapter {
             throw error;
         }
     }
+        */
 
     async updateDevices() {
         try {
-            if (!this.accessToken || !await this.checkTokenValidity(this.accessToken)) {
+            if (!this.accessToken === null || await this.checkTokenValidity(this.accessToken) !== 200) {
                 await this.fetchAccessToken(); // or refreshAccessToken()
             }
 
-            const response = await this.client.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
+            const response = await got.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
                 headers: {
                     'Authorization': `Bearer ${this.accessToken}`,
                     'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
                     'x-csrf-token': this.csrfToken
                 }
             });
-
-            const data = response.data;
-
-            await this.setStateAsync('roomTemperature', { val: data.roomTemperature, ack: true });
-            await this.setStateAsync('outdoorTemperature', { val: data.outdoorTemperature, ack: true });
-            await this.setStateAsync('waterPressure', { val: data.waterPressure, ack: true });
-            await this.setStateAsync('setPoint', { val: data.setPoint, ack: true });
-            await this.setStateAsync('dhwTemperature', { val: data.dhwTemperature, ack: true });
-            await this.setStateAsync('EnergyConsumption', { val: data.energyConsumption, ack: true });
-            await this.setStateAsync('gasCalorificValue', { val: data.gasCalorificValue, ack: true });
-            await this.setStateAsync('zoneMode', { val: data.zoneMode, ack: true });
-            await this.setStateAsync('waterPressureToLow', { val: data.waterPressureToLow, ack: true });
-            await this.setStateAsync('EnergyDelivered', { val: data.energyDelivered, ack: true });
+            this.log.debug('Status Update: ' + response.statusCode)
+            const data = JSON.parse(response.body);
+            
+            await this.setStateAsync('roomTemperature', { val: data.appliances[0].climateZones[0].roomTemperature, ack: true });
+            await this.setStateAsync('outdoorTemperature', { val: data.appliances[0].outdoorTemperature, ack: true });
+            await this.setStateAsync('waterPressure', { val: data.appliances[0].waterPressure, ack: true });
+            await this.setStateAsync('setPoint', { val: data.appliances[0].climateZones[0].setPoint, ack: true });
+            await this.setStateAsync('dhwTemperature', { val: data.appliances[0].hotWaterZones[0].dhwTemperature, ack: true });
+            //await this.setStateAsync('EnergyConsumption', { val: data.energyConsumption, ack: true });
+            await this.setStateAsync('gasCalorificValue', { val: data.appliances[0].gasCalorificValue, ack: true });
+            await this.setStateAsync('zoneMode', { val: data.appliances[0].climateZones[0].zoneMode, ack: true });
+            await this.setStateAsync('waterPressureToLow', { val: data.appliances[0].waterPressureOK, ack: true });
+            //await this.setStateAsync('EnergyDelivered', { val: data.energyDelivered, ack: true });
+            
         } catch (error) {
-            this.log.error(`Error updating devices: ${error.response ? error.response.data : error.message}`);
+            this.log.error(`Error updating devices: ${error}`);
         }
     }
 
     async checkTokenValidity(token) {
         try {
-            const response = await this.client.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
+            const response = await got.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
                     'x-csrf-token': this.csrfToken
                 }
             });
-            return response.status === 200;
+            this.log.debug('checkTokenValidity Status:' + response.statusCode)
+            //this.log.debug('checkTokenValidity:' + response.body);
+            await this.sleep(2000)
+            return 200;
         } catch (error) {
             this.log.error(`Token validity check failed: ${error.response ? error.response.data : error.message}`);
             return false;
