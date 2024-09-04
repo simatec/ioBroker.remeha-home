@@ -4,9 +4,9 @@ const utils = require('@iobroker/adapter-core');
 const crypto = require('crypto');
 const { URL, URLSearchParams } = require('url');
 const base64url = require('base64url');
-//const got = require('got');
+const got = require('got');
 const { CookieJar } = require('tough-cookie');
-const { got } = await import('got');
+//const { got } = await import('got');
 
 const cookieJar = new CookieJar();
 
