@@ -342,9 +342,20 @@ class RemehaHomeAdapter extends utils.Adapter {
             await this.setStateAsync('data.waterPressureToLow', { val: data.appliances[0].waterPressureOK, ack: true });
             await this.setStateAsync('data.firePlaceModeActive', { val: data.appliances[0].climateZones[0].firePlaceModeActive, ack: true });
             this.update = false;
+
+            const appliance = await this.got.get(`https://api.bdrthermea.net/Mobile/api/appliances/${data?.appliances[0].applianceId}/technicaldetails`, {
+                headers: {
+                    'Authorization': `Bearer ${this.accessToken}`,
+                    'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
+                    'x-csrf-token': this.csrfToken
+                }
+            });
+            this.log.debug(appliance.body)
         } catch (error) {
             this.log.error(`Error updating devices: ${error}`);
         }
+
+        
     }
 
     async checkTokenValidity(token) {
