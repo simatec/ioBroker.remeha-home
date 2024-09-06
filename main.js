@@ -20,6 +20,7 @@ class RemehaHomeAdapter extends utils.Adapter {
         this.csrfToken = null;
         this.codeChallenge = '';
         this.state = '';
+        this.update = false;
         this.loadGot();
 
 
@@ -56,22 +57,25 @@ class RemehaHomeAdapter extends utils.Adapter {
         if (isNaN(this.pollInterval) || this.pollInterval < 30) this.pollInterval = 30;
         if (this.pollInterval > 300) this.pollInterval = 300;
 
+        this.subscribeStates('data.setPoint');
+        this.subscribeStates('data.firePlaceModeActive');
+        this.subscribeStates('data.zoneMode');
+
         await this.createDevices();
         this.schedulePoll();
     }
 
     async createDevices() {
         const states = [
-            { id: 'roomTemperature', name: 'Room Temperature', role: 'value.temperature', unit: '°C' },
-            { id: 'outdoorTemperature', name: 'Outdoor Temperature', role: 'value.temperature', unit: '°C' },
-            { id: 'waterPressure', name: 'Water Pressure', role: 'value.pressure', unit: 'bar' },
-            { id: 'setPoint', name: 'Set Point Temperature', role: 'value.temperature', unit: '°C' },
-            { id: 'dhwTemperature', name: 'DHW Temperature', role: 'value.temperature', unit: '°C' },
-            { id: 'EnergyConsumption', name: 'Energy Consumption', role: 'value.power', unit: 'kWh' },
-            { id: 'gasCalorificValue', name: 'Gas Calorific Value', role: 'value.power', unit: 'kWh/m³' },
-            { id: 'zoneMode', name: 'Zone Mode', role: 'value', states: { 0: 'Scheduling', 10: 'Manual', 20: 'TemporaryOverride', 30: 'FrostProtection' } },
-            { id: 'waterPressureToLow', name: 'Water Pressure Too Low', role: 'indicator', type: 'boolean' },
-            { id: 'EnergyDelivered', name: 'Energy Delivered', role: 'value.power', unit: 'kWh' }
+            { id: 'data.roomTemperature', name: 'Room Temperature', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
+            { id: 'data.outdoorTemperature', name: 'Outdoor Temperature', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
+            { id: 'data.waterPressure', name: 'Water Pressure', read: true, write: false, type: 'number', role: 'value.pressure', unit: 'bar' },
+            { id: 'data.setPoint', name: 'Set Point Temperature', read: true, write: true, type: 'number', role: 'value.temperature', unit: '°C' },
+            { id: 'data.dhwTemperature', name: 'DHW Temperature', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
+            { id: 'data.gasCalorificValue', name: 'Gas Calorific Value', read: true, write: false, type: 'number', role: 'value.power', unit: 'kWh/m³' },
+            { id: 'data.zoneMode', name: 'Zone Mode', role: 'value', read: true, write: true, type: 'string', states: { 0: 'Scheduling', 10: 'Manual', 20: 'TemporaryOverride', 30: 'FrostProtection' } },
+            { id: 'data.waterPressureToLow', name: 'Water Pressure Too Low', read: true, write: false, role: 'switch', type: 'boolean' },
+            { id: 'data.firePlaceModeActive', name: 'Fireplace Mode Active', read: true, write: true, role: 'switch', type: 'boolean' },
         ];
 
         for (const state of states) {
@@ -82,8 +86,8 @@ class RemehaHomeAdapter extends utils.Adapter {
                     type: state.type || 'number',
                     role: state.role,
                     unit: state.unit || '',
-                    read: true,
-                    write: state.id === 'setPoint',
+                    read: state.read,
+                    write: state.write,
                     states: state.states || undefined,
                 },
                 native: {},
@@ -324,20 +328,20 @@ class RemehaHomeAdapter extends utils.Adapter {
                     'x-csrf-token': this.csrfToken
                 }
             });
-            this.log.debug('Status Update: ' + response.statusCode)
+            this.log.debug('Status Update: ' + response.statusCode);
+            this.update = true;
             const data = JSON.parse(response.body);
 
-            await this.setStateAsync('roomTemperature', { val: data.appliances[0].climateZones[0].roomTemperature, ack: true });
-            await this.setStateAsync('outdoorTemperature', { val: data.appliances[0].outdoorTemperature, ack: true });
-            await this.setStateAsync('waterPressure', { val: data.appliances[0].waterPressure, ack: true });
-            await this.setStateAsync('setPoint', { val: data.appliances[0].climateZones[0].setPoint, ack: true });
-            await this.setStateAsync('dhwTemperature', { val: data.appliances[0].hotWaterZones[0].dhwTemperature, ack: true });
-            //await this.setStateAsync('EnergyConsumption', { val: data.energyConsumption, ack: true });
-            await this.setStateAsync('gasCalorificValue', { val: data.appliances[0].gasCalorificValue, ack: true });
-            await this.setStateAsync('zoneMode', { val: data.appliances[0].climateZones[0].zoneMode, ack: true });
-            await this.setStateAsync('waterPressureToLow', { val: data.appliances[0].waterPressureOK, ack: true });
-            //await this.setStateAsync('EnergyDelivered', { val: data.energyDelivered, ack: true });
-
+            await this.setStateAsync('data.roomTemperature', { val: data.appliances[0].climateZones[0].roomTemperature, ack: true });
+            await this.setStateAsync('data.outdoorTemperature', { val: data.appliances[0].outdoorTemperature, ack: true });
+            await this.setStateAsync('data.waterPressure', { val: data.appliances[0].waterPressure, ack: true });
+            await this.setStateAsync('data.setPoint', { val: data.appliances[0].climateZones[0].setPoint, ack: true });
+            await this.setStateAsync('data.dhwTemperature', { val: data.appliances[0].hotWaterZones[0].dhwTemperature, ack: true });
+            await this.setStateAsync('data.gasCalorificValue', { val: data.appliances[0].gasCalorificValue, ack: true });
+            await this.setStateAsync('data.zoneMode', { val: data.appliances[0].climateZones[0].zoneMode, ack: true });
+            await this.setStateAsync('data.waterPressureToLow', { val: data.appliances[0].waterPressureOK, ack: true });
+            await this.setStateAsync('data.firePlaceModeActive', { val: data.appliances[0].climateZones[0].firePlaceModeActive, ack: true });
+            this.update = false;
         } catch (error) {
             this.log.error(`Error updating devices: ${error}`);
         }
@@ -363,6 +367,58 @@ class RemehaHomeAdapter extends utils.Adapter {
         }
     }
 
+    async setValues(type, postData) {
+        if (this.accessToken === null) {
+            await this.fetchAccessToken();
+        } else if (await this.checkTokenValidity(this.accessToken) !== 200) {
+            await this.refreshAccessToken();
+        }
+
+        const headers = {
+            'Authorization': `Bearer ${this.accessToken}`,
+            'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf'
+        }
+        try {
+            const response = await this.got.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
+                headers: {
+                    'Authorization': `Bearer ${this.accessToken}`,
+                    'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
+                    'x-csrf-token': this.csrfToken
+                }
+            });
+            const responseJson = JSON.parse(response.body);
+
+            const climateZoneId = responseJson.appliances[0].climateZones[0].climateZoneId;
+            const zoneMode = responseJson.appliances[0].climateZones[0].zoneMode;
+            const valueSetpoint = responseJson.appliances[0].climateZones[0].setPoint;
+
+            this.log.debug('Zone Mode:' + zoneMode);
+            this.log.debug('Setpoint Value:' + valueSetpoint);
+
+            switch (type) {
+                case 'setPoint':
+                    if (valueSetpoint !== postData?.roomTemperatureSetPoint) {
+                        try {
+                            const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/manual`, {
+                                headers: headers,
+                                json: postData,
+                                responseType: 'json'
+                            });
+
+                            this.log.debug(`POST response: ${postResponse.body}`);
+                        } catch (postError) {
+                            this.log.error(`Error making POST request: ${postError}`);
+                        }
+                    } else {
+                        this.log.debug('setpoint noChange');
+                    }
+                    break;
+            }
+        } catch (getError) {
+            this.log.error(`Error making GET request: ${getError}`);
+        }
+    }
+
     onMessage(obj) {
         if (obj && obj.command) {
             switch (obj.command) {
@@ -379,7 +435,17 @@ class RemehaHomeAdapter extends utils.Adapter {
     }
 
     onStateChange(id, state) {
-        if (state && !state.ack) {
+        if (state && !this.update) {
+            if (id === `${this.namespace}.data.setPoint`) {
+                const postData = {
+                    roomTemperatureSetPoint: state.val
+                };
+                this.setValues('setPoint', postData);
+            }
+            if (id === `${this.namespace}.data.zoneMode`) {
+            }
+            if (id === `${this.namespace}.data.firePlaceModeActive`) {
+            }
         }
     }
 
