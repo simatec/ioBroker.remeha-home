@@ -65,7 +65,7 @@
     "readme": "https://github.com/simatec/ioBroker.remeha-home/blob/master/README.md",
     "loglevel": "info",
     "mode": "daemon",
-    "type": "messaging",
+    "type": "climate-control",
     "compact": true,
     "connectionType": "cloud",
     "dataSource": "poll",
@@ -86,7 +86,7 @@
   },
   "native": {
     "account": "",
-    "pollInterval": 600
+    "pollInterval": 60
   },
   "encryptedNative": [
     "password"

@@ -45,6 +45,20 @@
 			"validatorNoSaveOnError": true,
 			"help": "Remeha Home Password"
 		},
+		"pollInterval": {
+			"type": "number",
+			"visible": true,
+			"label": "Poll Intervall (seconds)",
+			"min": 30,
+			"max": 3600,
+			"xs": 12,
+			"sm": 12,
+			"md": 8,
+			"lg": 4,
+			"validator": "data.pollInterval",
+			"validatorNoSaveOnError": true,
+			"help": "Poll Intervall (seconds)"
+		},
 		"_helpLine2": {
 			"newLine": true,
 			"type": "divider",

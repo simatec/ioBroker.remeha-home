@@ -3,5 +3,6 @@
     "Connect your Remeha Home System with ioBroker": "将您的 Remeha Home 系统与 ioBroker 连接",
     "Remeha Home Settings": "Remeha 主页设置",
     "Remeha Home Account": "Remeha 家庭帐户",
-    "Remeha Home Password": "雷米哈主页密码"
+    "Remeha Home Password": "雷米哈主页密码",
+    "Poll Intervall (seconds)": "轮询间隔（秒）"
 }

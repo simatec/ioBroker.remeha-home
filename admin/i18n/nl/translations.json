@@ -3,5 +3,6 @@
     "Connect your Remeha Home System with ioBroker": "Verbind uw Remeha Home Systeem met ioBroker",
     "Remeha Home Settings": "Remeha Home-instellingen",
     "Remeha Home Account": "Remeha Home-account",
-    "Remeha Home Password": "Remeha Home-wachtwoord"
+    "Remeha Home Password": "Remeha Home-wachtwoord",
+    "Poll Intervall (seconds)": "Poll-interval (seconden)"
 }

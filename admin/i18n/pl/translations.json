@@ -3,5 +3,6 @@
     "Connect your Remeha Home System with ioBroker": "Połącz swój system domowy Remeha z ioBrokerem",
     "Remeha Home Settings": "Ustawienia domowe Remehy",
     "Remeha Home Account": "Konto domowe Remeha",
-    "Remeha Home Password": "Hasło do domu Remehy"
+    "Remeha Home Password": "Hasło do domu Remehy",
+    "Poll Intervall (seconds)": "Interwał ankiety (sekundy)"
 }
