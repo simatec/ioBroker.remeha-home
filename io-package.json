@@ -116,6 +116,30 @@
         "def": false
       },
       "native": {}
+    },
+    {
+      "_id": "data",
+      "type": "channel",
+      "common": {
+        "name": "Remeha Data"
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.roomThermostat",
+      "type": "channel",
+      "common": {
+        "name": "Thermostat"
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.dhw",
+      "type": "channel",
+      "common": {
+        "name": "DHW"
+      },
+      "native": {}
     }
   ]
 }
