@@ -25,7 +25,7 @@ This adapter uses the service `Sentry.io` to automatically report exceptions and
 
 ---
 
-## remeha-home adapter for ioBroker
+## Remeha Home adapter for ioBroker
 
 
 ---
@@ -41,8 +41,10 @@ You must enter these in the configuration of the adapter.
 <!-- ### **WORK IN PROGRESS** -->
 ## Changelog
 ### **WORK IN PROGRESS**
-* (simatec) initial release
+* (simatec) First Beta
 
+### 0.0.1 (2024-09-09)
+* (simatec) First Commit
 ---
 
 ## License
