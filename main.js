@@ -169,7 +169,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 followRedirect: true,
             });
 
-            this.log.debug('Response get Auth: ' + response.statusCode);
+            this.log.debug(`Get Auth: ${response.statusCode === 200 ? 'OK' : 'faild'}`);
 
             let csrfTokenCookie;
             const cookies = response.headers['set-cookie'];
@@ -231,7 +231,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 followRedirect: true,
             });
 
-            this.log.debug('Login response status:' + response.statusCode);
+            this.log.debug(`Post Login Status: ${response.statusCode === 200 ? 'OK' : 'faild'}`);
 
         } catch (error) {
             this.log.error('Error during login:' + error.message);
@@ -253,7 +253,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 followRedirect: false
             });
 
-            this.log.debug('Login response1 status:' + response.statusCode);
+            this.log.debug(`Get Login Status: ${response.statusCode === 302 ? 'OK' : 'faild'}`);
 
             const parsedCallbackUrl = new URL(response.headers.location);
             if (parsedCallbackUrl) {
@@ -273,7 +273,7 @@ class RemehaHomeAdapter extends utils.Adapter {
         } catch (error) {
             this.log.error(`Error get code: ${error}`);
             if (error.response) {
-                this.log.error(`Response error status: ${error.response}`);
+                this.log.error(`Response error Status: ${error.response}`);
             }
             throw error;
         }
@@ -313,7 +313,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 followRedirect: true,
                 responseType: 'json'
             });
-            this.log.debug('Access Token Status:' + response.statusCode);
+            this.log.debug(`Get Accesstoken Status: ${response.statusCode === 200 ? 'OK' : 'faild'}`);
             this.accessToken = response.body.access_token;
             this.refreshToken = response.body.refresh_token;
             return this.accessToken;
@@ -332,11 +332,15 @@ class RemehaHomeAdapter extends utils.Adapter {
             };
 
             const response = await this.client.post('bdrb2cprod.onmicrosoft.com/oauth2/v2.0/token', {
+                searchParams: {
+                    p: 'B2C_1A_RPSignUpSignInNewRoomV3.1'
+                },
                 form: grantParams,
                 followRedirect: true,
                 responseType: 'json'
             });
 
+            this.log.debug(`Get Refreshtoken Status: ${response.statusCode === 200 ? 'OK' : 'faild'}`);
             this.accessToken = response.body.access_token;
             this.log.debug(`Refreshed Access Token: ${this.accessToken}`);
         } catch (error) {
@@ -356,7 +360,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                     'x-csrf-token': this.csrfToken
                 }
             });
-            this.log.debug('Status Update: ' + response.statusCode);
+            this.log.debug(`Get Update Status: ${response.statusCode === 200 ? 'OK' : 'faild'}`);
 
             const data = JSON.parse(response.body);
 
@@ -387,6 +391,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 }
             });
 
+            this.log.debug(`Get Device Info Status: ${appliance.statusCode === 200 ? 'OK' : 'faild'}`);
             const applianceInfo = JSON.parse(appliance.body);
 
             await this.setState('info.applianceName', { val: applianceInfo.applianceName, ack: true });
@@ -409,13 +414,13 @@ class RemehaHomeAdapter extends utils.Adapter {
                     'x-csrf-token': this.csrfToken
                 }
             });
-            this.log.debug('checkTokenValidity Status:' + response.statusCode);
+            this.log.debug(`Get checkTokenValidity Status: ${response.statusCode === 200 ? 'OK' : 'faild'}`);
             await this.setState('info.connection', response.statusCode === 200 ? true : false, true);
 
             await this.sleep(2000)
             return response.statusCode;
         } catch (error) {
-            this.log.error(`Token validity check failed: ${error}`);
+            this.log.debug(`Token validity check failed: ${error}`);
             return false;
         }
     }
@@ -439,7 +444,6 @@ class RemehaHomeAdapter extends utils.Adapter {
             const responseJson = JSON.parse(response.body);
 
             const climateZoneId = responseJson.appliances[0].climateZones[0].climateZoneId;
-            const zoneMode = responseJson.appliances[0].climateZones[0].zoneMode;
             const valueSetpoint = responseJson.appliances[0].climateZones[0].setPoint;
             const valueFireplaceMode = responseJson.appliances[0].climateZones[0].firePlaceModeActive;
             const valueZoneMode = responseJson.appliances[0].climateZones[0].zoneMode;
@@ -455,7 +459,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                                 responseType: 'json'
                             });
 
-                            this.log.debug(`POST response SetPoint: ${postResponse.statusCode}`);
+                            this.log.debug(`Post SetPoint: ${postResponse.statusCode === 200 ? 'OK' : 'faild'}`);
                         } catch (postError) {
                             this.log.error(`Error making POST request SetPoint: ${postError}`);
                         }
@@ -472,7 +476,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                                 responseType: 'json'
                             });
 
-                            this.log.debug(`POST response fireplacemode: ${postResponse.statusCode}`);
+                            this.log.debug(`Post fireplacemode: ${postResponse.statusCode === 200 ? 'OK' : 'faild'}`);
                         } catch (postError) {
                             this.log.error(`Error making POST request for fireplacemode: ${postError}`);
                         }
@@ -490,7 +494,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                                 responseType: 'json'
                             });
 
-                            this.log.debug(`POST response ZoneMode: ${postResponse.statusCode}`);
+                            this.log.debug(`Post ZoneMode: ${postResponse.statusCode === 200 ? 'OK' : 'faild'}`);
                         } catch (postError) {
                             this.log.error(`Error making POST request for zoneMode: ${postError}`);
                         }
