@@ -22,7 +22,8 @@ class RemehaHomeAdapter extends utils.Adapter {
         this.csrfToken = null;
         this.codeChallenge = '';
         this.state = '';
-        this.update = false;
+        this.postUpdate = true;
+        this.getUpdate = false;
         this.loadGot();
 
         this.onReady = this.onReady.bind(this);
@@ -135,7 +136,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             } else if (this.accessToken !== null && await this.checkTokenValidity(this.accessToken) !== 200) {
                 await this.refreshAccessToken();
             }
-            if (await this.checkTokenValidity(this.accessToken) === 200) {
+            if (await this.checkTokenValidity(this.accessToken) === 200 && this.postUpdate) {
                 await this.updateDevices();
             }
         } catch (error) {
@@ -204,13 +205,6 @@ class RemehaHomeAdapter extends utils.Adapter {
         } catch (error) {
             this.log.error(`Error resolving external data: ${error.message}`);
         }
-    }
-
-    async sleep(ms) {
-        return new Promise(async (resolve) => {
-            // @ts-ignore
-            this.setTimeout(async () => resolve(), ms);
-        });
     }
 
     async login(stateProperties, csrfToken) {
@@ -342,7 +336,6 @@ class RemehaHomeAdapter extends utils.Adapter {
 
             this.log.debug(`Get Refreshtoken Status: ${response.statusCode === 200 ? 'OK' : 'faild'}`);
             this.accessToken = response.body.access_token;
-            this.log.debug(`Refreshed Access Token: ${this.accessToken}`);
         } catch (error) {
             this.log.error(`Error refreshing access token: ${error}`);
             throw error;
@@ -351,7 +344,7 @@ class RemehaHomeAdapter extends utils.Adapter {
 
     async updateDevices() {
         try {
-            this.update = true;
+            this.getUpdate = true;
 
             const response = await this.got.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
                 headers: {
@@ -380,9 +373,6 @@ class RemehaHomeAdapter extends utils.Adapter {
             await this.setState('data.roomThermostat.activeComfortDemand', { val: data.appliances[0].climateZones[0].activeComfortDemand, ack: true });
             await this.setState('data.roomThermostat.nextSwitchTime', { val: data.appliances[0].climateZones[0].nextSwitchTime, ack: true });
 
-
-            this.update = false;
-
             const appliance = await this.got.get(`https://api.bdrthermea.net/Mobile/api/appliances/${data?.appliances[0].applianceId}/technicaldetails`, {
                 headers: {
                     'Authorization': `Bearer ${this.accessToken}`,
@@ -400,7 +390,9 @@ class RemehaHomeAdapter extends utils.Adapter {
             await this.setState('info.softwareVersion', { val: applianceInfo.internetConnectedGateways[0].softwareVersion, ack: true });
             await this.setState('info.hardwareVersion', { val: applianceInfo.internetConnectedGateways[0].hardwareVersion, ack: true });
 
+            this.getUpdate = false;
         } catch (error) {
+            this.getUpdate = false;
             this.log.error(`Error updating devices: ${error}`);
         }
     }
@@ -417,99 +409,105 @@ class RemehaHomeAdapter extends utils.Adapter {
             this.log.debug(`Get checkTokenValidity Status: ${response.statusCode === 200 ? 'OK' : 'faild'}`);
             await this.setState('info.connection', response.statusCode === 200 ? true : false, true);
 
-            await this.sleep(2000)
             return response.statusCode;
         } catch (error) {
-            this.log.debug(`Token validity check failed: ${error}`);
+            this.log.debug('Token validity check failed. An attempt is being made to obtain a new token');
+            await this.setState('info.connection', false, true);
             return false;
         }
     }
 
     async setValues(type, postData) {
         if (this.accessToken === null) {
-            await this.fetchAccessToken();
-        } else if (await this.checkTokenValidity(this.accessToken) !== 200) {
+            await this.resolveExternalData();
+        } else if (this.accessToken !== null && await this.checkTokenValidity(this.accessToken) !== 200) {
             await this.refreshAccessToken();
         }
 
-        const headers = {
-            'Authorization': `Bearer ${this.accessToken}`,
-            'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
-            'x-csrf-token': this.csrfToken
-        }
-        try {
-            const response = await this.got.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
-                headers: headers
-            });
-            const responseJson = JSON.parse(response.body);
+        if (await this.checkTokenValidity(this.accessToken) === 200 && this.postUpdate) {
+            this.postUpdate = false;
 
-            const climateZoneId = responseJson.appliances[0].climateZones[0].climateZoneId;
-            const valueSetpoint = responseJson.appliances[0].climateZones[0].setPoint;
-            const valueFireplaceMode = responseJson.appliances[0].climateZones[0].firePlaceModeActive;
-            const valueZoneMode = responseJson.appliances[0].climateZones[0].zoneMode;
-            const valueProgNumber = responseJson.appliances[0].climateZones[0].activeHeatingClimateTimeProgramNumber;
-
-            switch (type) {
-                case 'setPoint':
-                    if (valueZoneMode !== 'Manual' || valueSetpoint !== postData?.roomTemperatureSetPoint) {
-                        try {
-                            const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/manual`, {
-                                headers: headers,
-                                json: postData,
-                                responseType: 'json'
-                            });
-
-                            this.log.debug(`Post SetPoint: ${postResponse.statusCode === 200 ? 'OK' : 'faild'}`);
-                        } catch (postError) {
-                            this.log.error(`Error making POST request SetPoint: ${postError}`);
-                        }
-                    } else {
-                        this.log.debug('setpoint noChange');
-                    }
-                    break;
-                case 'fireplaceModeActive':
-                    if (valueFireplaceMode !== postData?.firePlaceModeActive) {
-                        try {
-                            const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/fireplacemode`, {
-                                headers: headers,
-                                json: postData,
-                                responseType: 'json'
-                            });
-
-                            this.log.debug(`Post fireplacemode: ${postResponse.statusCode === 200 ? 'OK' : 'faild'}`);
-                        } catch (postError) {
-                            this.log.error(`Error making POST request for fireplacemode: ${postError}`);
-                        }
-                    } else {
-                        this.log.debug('fireplaceMode noChange');
-                    }
-                    break;
-                case 'zoneMode':
-                    if (valueZoneMode !== postData?.zoneMode) {
-                        const jsonData = postData?.zoneMode === 'Scheduling' ? { heatingProgramId: valueProgNumber } : null;
-                        try {
-                            const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/${postData?.value}`, {
-                                headers: headers,
-                                json: jsonData,
-                                responseType: 'json'
-                            });
-
-                            this.log.debug(`Post ZoneMode: ${postResponse.statusCode === 200 ? 'OK' : 'faild'}`);
-                        } catch (postError) {
-                            this.log.error(`Error making POST request for zoneMode: ${postError}`);
-                        }
-                    } else {
-                        this.log.debug('zoneMode noChange');
-                    }
-                    break;
+            const headers = {
+                'Authorization': `Bearer ${this.accessToken}`,
+                'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
+                'x-csrf-token': this.csrfToken
             }
-        } catch (getError) {
-            this.log.error(`Error making GET request: ${getError}`);
+            try {
+                const response = await this.got.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
+                    headers: headers
+                });
+                const responseJson = JSON.parse(response.body);
+
+                const climateZoneId = responseJson.appliances[0].climateZones[0].climateZoneId;
+                const valueSetpoint = responseJson.appliances[0].climateZones[0].setPoint;
+                const valueFireplaceMode = responseJson.appliances[0].climateZones[0].firePlaceModeActive;
+                const valueZoneMode = responseJson.appliances[0].climateZones[0].zoneMode;
+                const valueProgNumber = responseJson.appliances[0].climateZones[0].activeHeatingClimateTimeProgramNumber;
+
+                switch (type) {
+                    case 'setPoint':
+                        if (valueZoneMode !== 'Manual' || valueSetpoint !== postData?.roomTemperatureSetPoint) {
+                            try {
+                                const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/manual`, {
+                                    headers: headers,
+                                    json: postData,
+                                    responseType: 'json'
+                                });
+
+                                this.log.debug(`Post SetPoint: ${postResponse.statusCode === 200 ? 'OK' : 'faild'}`);
+                            } catch (postError) {
+                                this.log.error(`Error making POST request SetPoint: ${postError}`);
+                            }
+                        } else {
+                            this.log.debug('setpoint noChange');
+                        }
+                        break;
+                    case 'fireplaceModeActive':
+                        if (valueFireplaceMode !== postData?.firePlaceModeActive) {
+                            try {
+                                const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/fireplacemode`, {
+                                    headers: headers,
+                                    json: postData,
+                                    responseType: 'json'
+                                });
+
+                                this.log.debug(`Post fireplacemode: ${postResponse.statusCode === 200 ? 'OK' : 'faild'}`);
+                            } catch (postError) {
+                                this.log.error(`Error making POST request for fireplacemode: ${postError}`);
+                            }
+                        } else {
+                            this.log.debug('fireplaceMode noChange');
+                        }
+                        break;
+                    case 'zoneMode':
+                        if (valueZoneMode !== postData?.zoneMode) {
+                            const jsonData = postData?.zoneMode === 'Scheduling' ? { heatingProgramId: valueProgNumber } : null;
+                            try {
+                                const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/${postData?.value}`, {
+                                    headers: headers,
+                                    json: jsonData,
+                                    responseType: 'json'
+                                });
+
+                                this.log.debug(`Post ZoneMode: ${postResponse.statusCode === 200 ? 'OK' : 'faild'}`);
+                            } catch (postError) {
+                                this.log.error(`Error making POST request for zoneMode: ${postError}`);
+                            }
+                        } else {
+                            this.log.debug('zoneMode noChange');
+                        }
+                        break;
+                }
+                this.postUpdate = true;
+            } catch (getError) {
+                this.postUpdate = true;
+                this.log.error(`Error making GET request: ${getError}`);
+            }
         }
     }
 
     async onStateChange(id, state) {
-        if (state && !this.update) {
+        if (state && !this.getUpdate) {
             if (id === `${this.namespace}.data.roomThermostat.setPoint`) {
                 if (!state?.ack) {
                     await this.setState('data.roomThermostat.setPoint', { val: state?.val, ack: true });
@@ -578,7 +576,7 @@ class RemehaHomeAdapter extends utils.Adapter {
     onUnload(callback) {
         try {
             this.setState('info.connection', false, true);
-            clearInterval(this.interval);
+            this.clearInterval(this.interval);
             callback();
         } catch (e) {
             callback();
