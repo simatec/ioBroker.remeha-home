@@ -40,7 +40,7 @@ You must enter these in the configuration of the adapter.
 ---
 <!-- ### **WORK IN PROGRESS** -->
 ## Changelog
-### **WORK IN PROGRESS**
+### 0.1.0 (2024-09-10)
 * (simatec) First Beta
 
 ### 0.0.1 (2024-09-09)
