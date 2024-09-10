@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "news": {
+      "0.1.1": {
+        "en": "Fix Release Script",
+        "de": "Löschen von Skript",
+        "ru": "Fix Release Script",
+        "pt": "Corrigir script de versão",
+        "nl": "Release Script herstellen",
+        "fr": "Correction du script de sortie",
+        "it": "Risolvere lo script di rilascio",
+        "es": "Script de liberación fija",
+        "pl": "Popraw skrypt wydania",
+        "uk": "Виправлення Release Script",
+        "zh-cn": "修复释放脚本"
+      },
       "0.1.0": {
         "en": "First Beta",
         "de": "Erste Beta",
