@@ -41,6 +41,9 @@ You must enter these in the configuration of the adapter.
 <!-- ### **WORK IN PROGRESS** -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (simatec) Fix Zonemode
+
 ### 0.1.1 (2024-09-10)
 * (simatec) Fix Release Script
 

@@ -82,7 +82,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             { id: 'data.dhw.dhwTargetSetpoint', name: 'DHW Target Setpoint', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
             { id: 'data.dhw.dhwStatus', name: 'DHW Status', read: true, write: false, type: 'string', role: 'value' },
             { id: 'data.dhw.gasCalorificValue', name: 'Gas Calorific Value', read: true, write: false, type: 'number', role: 'value.power', unit: 'kWh/m³' },
-            { id: 'data.roomThermostat.zoneMode', name: 'Zone Mode', role: 'value', read: true, write: true, type: 'string', states: { 'Scheduling': this.translate('Scheduling', systemLang), 'Manual': this.translate('Manual', systemLang), 'FrostProtection': this.translate('FrostProtection', systemLang) } },
+            { id: 'data.roomThermostat.zoneMode', name: 'Zone Mode', role: 'level.mode.thermostat', read: true, write: true, type: 'string', states: { 'Scheduling': this.translate('Scheduling', systemLang), 'Manual': this.translate('Manual', systemLang), 'FrostProtection': this.translate('FrostProtection', systemLang) } },
             { id: 'data.dhw.waterPressureOK', name: 'Water Pressure OK', read: true, write: false, role: 'switch', type: 'boolean' },
             { id: 'data.roomThermostat.firePlaceModeActive', name: 'Fireplace Mode Active', read: true, write: true, role: 'switch', type: 'boolean' },
             { id: 'data.roomThermostat.nextSetpoint', name: 'next Setpoint', read: true, write: false, role: 'value.temperature', type: 'number', unit: '°C' },
@@ -357,6 +357,8 @@ class RemehaHomeAdapter extends utils.Adapter {
 
             const data = JSON.parse(response.body);
 
+            const _zoneMode = data.appliances[0].climateZones[0].zoneMode;
+
             await this.setState('data.roomThermostat.roomTemperature', { val: data.appliances[0].climateZones[0].roomTemperature, ack: true });
             await this.setState('data.dhw.outdoorTemperature', { val: data.appliances[0].outdoorTemperature, ack: true });
             await this.setState('data.dhw.waterPressure', { val: data.appliances[0].waterPressure, ack: true });
@@ -365,7 +367,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             await this.setState('data.dhw.dhwTargetSetpoint', { val: data.appliances[0].hotWaterZones[0].targetSetpoint, ack: true });
             await this.setState('data.dhw.dhwStatus', { val: data.appliances[0].hotWaterZones[0].dhwStatus, ack: true });
             await this.setState('data.dhw.gasCalorificValue', { val: data.appliances[0].gasCalorificValue, ack: true });
-            await this.setState('data.roomThermostat.zoneMode', { val: data.appliances[0].climateZones[0].zoneMode, ack: true });
+            await this.setState('data.roomThermostat.zoneMode', { val: _zoneMode === 'TemporaryOverride' ? this.translate('TemporaryOverride', systemLang) : _zoneMode, ack: true });
             await this.setState('data.dhw.waterPressureOK', { val: data.appliances[0].waterPressureOK, ack: true });
             await this.setState('data.roomThermostat.firePlaceModeActive', { val: data.appliances[0].climateZones[0].firePlaceModeActive, ack: true });
             await this.setState('data.roomThermostat.nextSetpoint', { val: data.appliances[0].climateZones[0].nextSetpoint, ack: true });
@@ -481,7 +483,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                         break;
                     case 'zoneMode':
                         if (valueZoneMode !== postData?.zoneMode) {
-                            const jsonData = postData?.zoneMode === 'Scheduling' ? { heatingProgramId: valueProgNumber } : null;
+                            const jsonData = postData?.zoneMode === 'Scheduling' ? { heatingProgramId: valueProgNumber } : postData?.zoneMode === 'Manual' ? { roomTemperatureSetPoint: valueSetpoint } : null;
                             try {
                                 const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/${postData?.value}`, {
                                     headers: headers,
@@ -545,18 +547,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                         zoneMode: state.val,
                         value: mode,
                     };
-                    this.log.debug(JSON.stringify(postData))
-                    if (mode !== 'manual') {
-                        this.setValues('zoneMode', postData);
-                    } else {
-                        const setPoint = await this.getStateAsync('data.roomThermostat.setPoint');
-                        if (setPoint?.val) {
-                            const postData = {
-                                roomTemperatureSetPoint: setPoint.val
-                            };
-                            this.setValues('setPoint', postData);
-                        }
-                    }
+                    this.setValues('zoneMode', postData);
                 }
             }
 

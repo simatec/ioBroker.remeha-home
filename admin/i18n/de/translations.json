@@ -26,7 +26,7 @@
     "Hardware Version": "Hardwareversion",
     "Appliance Name": "Gerätename",
     "FrostProtection": "Frostschutz",
-    "TemporaryOverride": "Vorübergehende Überschreibung",
+    "TemporaryOverride": "vorübergehende Temperaturüberschreibung",
     "Manual": "Manuell",
     "Scheduling": "Zeitplan"
 }
