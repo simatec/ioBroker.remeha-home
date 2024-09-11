@@ -82,7 +82,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             { id: 'data.dhw.dhwTargetSetpoint', name: 'DHW Target Setpoint', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
             { id: 'data.dhw.dhwStatus', name: 'DHW Status', read: true, write: false, type: 'string', role: 'value' },
             { id: 'data.dhw.gasCalorificValue', name: 'Gas Calorific Value', read: true, write: false, type: 'number', role: 'value.power', unit: 'kWh/m³' },
-            { id: 'data.roomThermostat.zoneMode', name: 'Zone Mode', role: 'value', read: true, write: true, type: 'string', states: { 'Scheduling': this.translate('Scheduling', systemLang), 'Manual': this.translate('Manual', systemLang), 'TemporaryOverride': this.translate('TemporaryOverride', systemLang), 'FrostProtection': this.translate('FrostProtection', systemLang) } },
+            { id: 'data.roomThermostat.zoneMode', name: 'Zone Mode', role: 'value', read: true, write: true, type: 'string', states: { 'Scheduling': this.translate('Scheduling', systemLang), 'Manual': this.translate('Manual', systemLang), 'FrostProtection': this.translate('FrostProtection', systemLang) } },
             { id: 'data.dhw.waterPressureOK', name: 'Water Pressure OK', read: true, write: false, role: 'switch', type: 'boolean' },
             { id: 'data.roomThermostat.firePlaceModeActive', name: 'Fireplace Mode Active', read: true, write: true, role: 'switch', type: 'boolean' },
             { id: 'data.roomThermostat.nextSetpoint', name: 'next Setpoint', read: true, write: false, role: 'value.temperature', type: 'number', unit: '°C' },
@@ -448,7 +448,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                     case 'setPoint':
                         if (valueZoneMode !== 'Manual' || valueSetpoint !== postData?.roomTemperatureSetPoint) {
                             try {
-                                const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/manual`, {
+                                const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/${valueZoneMode !== 'Manual' ? 'temporary-override' : 'manual'}`, {
                                     headers: headers,
                                     json: postData,
                                     responseType: 'json'
