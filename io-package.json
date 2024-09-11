@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "news": {
+      "0.1.2": {
+        "en": "Fix Zonemode",
+        "de": "Zurück zur Übersicht",
+        "ru": "Fix Zonemode",
+        "pt": "Fix Zonemode",
+        "nl": "Fix Zonemode",
+        "fr": "Correction du mode zone",
+        "it": "Fix Zonemode",
+        "es": "Modo de zona fijo",
+        "pl": "Napraw Zonemode",
+        "uk": "Виправлення Zonemode",
+        "zh-cn": "固定分区"
+      },
       "0.1.1": {
         "en": "Fix Release Script",
         "de": "Löschen von Skript",
