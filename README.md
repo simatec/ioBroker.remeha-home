@@ -30,6 +30,19 @@ This adapter uses the service `Sentry.io` to automatically report exceptions and
 
 ---
 
+## Description
+
+The ioBroker.remeha-home adapter enables the integration and control of Remeha heating systems via the Remeha Home platform. The adapter continuously connects to the Remeha Home API and retrieves current data to make it available in the ioBroker system. This allows the heating system to be optimally monitored and controlled.
+
+
+## Functions
+
+* Data retrieval: Continuous retrieval of heating data such as room temperature, outdoor temperature, heating status and more.
+* Control zone mode: Activation and deactivation of heating zones (e.g. for different rooms or floors).
+* Set target temperature: Setting the desired room temperature for different zones.
+* Switch fireplace mode: Activation of fireplace mode to adjust the heating for external heat sources such as a fireplace.
+
+
 ## Adapter configuration
 
 The configuration of the adapter is very simple.
