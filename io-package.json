@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "news": {
+      "0.1.3": {
+        "en": "Fix Zonemode\nTranslation added",
+        "de": "Zurück zur Übersicht\nÜbersetzung hinzugefügt",
+        "ru": "Fix Zonemode\nДобавлено",
+        "pt": "Fix Zonemode\nTradução adicionada",
+        "nl": "Fix Zonemode\nVertaling toegevoegd",
+        "fr": "Correction du mode zone\nTraduction ajoutée",
+        "it": "Fix Zonemode\nTraduzione aggiunto",
+        "es": "Modo de zona fijo\nTraducción añadido",
+        "pl": "Napraw Zonemode\nTłumaczenie dodane",
+        "uk": "Виправлення Zonemode\nПереклад додано",
+        "zh-cn": "固定分区\n增加了翻译"
+      },
       "0.1.2": {
         "en": "Fix Zonemode",
         "de": "Zurück zur Übersicht",
