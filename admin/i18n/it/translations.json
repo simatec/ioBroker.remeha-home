@@ -28,5 +28,9 @@
     "FrostProtection": "Protezione antigelo",
     "TemporaryOverride": "Sostituzione temporanea",
     "Manual": "Manuale",
-    "Scheduling": "Pianificazione"
+    "Scheduling": "Pianificazione",
+    "Thermostat Name": "Nome del termostato",
+    "DHW Name": "Nome ACS",
+    "Current Zone Mode": "Modalità zona corrente",
+    "Set Zone Mode": "Imposta la modalità zona"
 }

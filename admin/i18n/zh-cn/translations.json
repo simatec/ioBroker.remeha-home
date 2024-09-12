@@ -28,5 +28,9 @@
     "FrostProtection": "防冻保护",
     "TemporaryOverride": "临时覆盖",
     "Manual": "手动的",
-    "Scheduling": "调度"
+    "Scheduling": "调度",
+    "Thermostat Name": "温控器名称",
+    "DHW Name": "生活热水名称",
+    "Current Zone Mode": "当前区域模式",
+    "Set Zone Mode": "设置区域模式"
 }

@@ -28,5 +28,9 @@
     "FrostProtection": "Ochrona przed mrozem",
     "TemporaryOverride": "Tymczasowe nadpisanie",
     "Manual": "Podręcznik",
-    "Scheduling": "Planowanie"
+    "Scheduling": "Planowanie",
+    "Thermostat Name": "Nazwa termostatu",
+    "DHW Name": "Nazwa CWU",
+    "Current Zone Mode": "Aktualny tryb strefy",
+    "Set Zone Mode": "Ustaw tryb strefy"
 }

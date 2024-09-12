@@ -28,5 +28,9 @@
 	"FrostProtection": "Frost Protection",
 	"TemporaryOverride": "Temporary Override",
 	"Manual": "Manual",
-	"Scheduling": "Scheduling"
+	"Scheduling": "Scheduling",
+	"Thermostat Name": "Thermostat Name",
+	"DHW Name": "DHW Name",
+	"Current Zone Mode": "Current Zone Mode",
+	"Set Zone Mode": "Set Zone Mode"
 }

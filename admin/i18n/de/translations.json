@@ -28,5 +28,9 @@
     "FrostProtection": "Frostschutz",
     "TemporaryOverride": "vorübergehende Temperaturüberschreibung",
     "Manual": "Manuell",
-    "Scheduling": "Zeitplan"
+    "Scheduling": "Zeitplan",
+    "Thermostat Name": "Thermostatname",
+    "DHW Name": "Warmwassername",
+    "Current Zone Mode": "Aktueller Zonenmodus",
+    "Set Zone Mode": "Stellen Sie den Zonenmodus ein"
 }

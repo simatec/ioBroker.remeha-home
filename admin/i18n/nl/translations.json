@@ -28,5 +28,9 @@
     "FrostProtection": "Vorstbescherming",
     "TemporaryOverride": "Tijdelijke overschrijving",
     "Manual": "Handmatig",
-    "Scheduling": "Planning"
+    "Scheduling": "Planning",
+    "Thermostat Name": "Naam thermostaat",
+    "DHW Name": "SWW-naam",
+    "Current Zone Mode": "Huidige zonemodus",
+    "Set Zone Mode": "Zonemodus instellen"
 }

@@ -28,5 +28,9 @@
     "FrostProtection": "Защита от замерзания",
     "TemporaryOverride": "Временное переопределение",
     "Manual": "Руководство",
-    "Scheduling": "Планирование"
+    "Scheduling": "Планирование",
+    "Thermostat Name": "Название термостата",
+    "DHW Name": "Имя ГВС",
+    "Current Zone Mode": "Режим текущей зоны",
+    "Set Zone Mode": "Установить режим зоны"
 }
