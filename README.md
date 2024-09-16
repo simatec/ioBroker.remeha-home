@@ -54,6 +54,12 @@ You must enter these in the configuration of the adapter.
 <!-- ### **WORK IN PROGRESS** -->
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+* (simatec) Translation Fix
+* (simatec) Code cleaning
+* (simatec) Ready for Betatest
+
 ### 0.1.3 (2024-09-12)
 * (simatec) Fix Zonemode
 * (simatec) Translation added
