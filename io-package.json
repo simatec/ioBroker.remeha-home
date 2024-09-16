@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "0.1.3",
+    "version": "0.2.0",
     "news": {
+      "0.2.0": {
+        "en": "Translation Fix\nCode cleaning\nReady for Betatest",
+        "de": "Übersetzung Fix\nCodereinigung\nBereit für Betatest",
+        "ru": "Исправление перевода\nОчистка кода\nГотовы к Бетатесту",
+        "pt": "Correção de tradução\nLimpeza de código\nPronto para Betatest",
+        "nl": "Vertaalfix\nCode reiniging\nKlaar voor Betatest",
+        "fr": "Correction de traduction\nNettoyage du code\nPrêt pour Betastest",
+        "it": "Traduzione\nPulizia del codice\nPronto per Betatest",
+        "es": "Traducción\nLimpieza de códigos\nListo para Betatest",
+        "pl": "Tłumaczenie Fix\nCzyszczenie kodu\nGotowy na Betatest",
+        "uk": "Переклад\nЧистка коду\nГотовий для Betatest",
+        "zh-cn": "翻译修正\n代码清理\n准备下注"
+      },
       "0.1.3": {
         "en": "Fix Zonemode\nTranslation added",
         "de": "Zurück zur Übersicht\nÜbersetzung hinzugefügt",
