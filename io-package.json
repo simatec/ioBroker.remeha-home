@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "news": {
+      "0.2.1": {
+        "en": "States Fix\nReadme Fix\nTest & Release Fix",
+        "de": "In den Warenkorb\nReader-Reparatur\nTest & Release Fix",
+        "ru": "Штаты\nОригинальное название:\nИспытания и высвободить",
+        "pt": "Estados Unidos\nFix de leitura\nTest & Release Fix",
+        "nl": "Vaststelling\nReadme Fix\nTest & Release Fix",
+        "fr": "États\nCorrection de lecture\nCorrection d'essai et de libération",
+        "it": "Stati Uniti\nSistema di lettura\nTest & Release Fix",
+        "es": "Estados Unidos\nLeerme Fix\nPruebas de liberación",
+        "pl": "Stany\nReadme Fix\nTest & Release Fix",
+        "uk": "США виправити\nЗавантажити\nТестування та реліз",
+        "zh-cn": "国家\n读取修正\n测试和释放修正"
+      },
       "0.2.0": {
         "en": "Translation Fix\nCode cleaning\nReady for Betatest",
         "de": "Übersetzung Fix\nCodereinigung\nBereit für Betatest",
