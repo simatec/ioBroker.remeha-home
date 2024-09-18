@@ -127,7 +127,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             { id: 'data.roomThermostat.roomTemperature', name: 'Room Temperature', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
             { id: 'data.dhw.outdoorTemperature', name: 'Outdoor Temperature', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
             { id: 'data.dhw.waterPressure', name: 'Water Pressure', read: true, write: false, type: 'number', role: 'value.pressure', unit: 'bar' },
-            { id: 'data.roomThermostat.setPoint', name: 'Set Point Temperature', read: true, write: true, type: 'number', role: 'value.temperature', unit: '°C' },
+            { id: 'data.roomThermostat.setPoint', name: 'Set Point Temperature', read: true, write: true, type: 'number', role: 'level.temperature', unit: '°C' },
             { id: 'data.dhw.dhwTemperature', name: 'DHW Temperature', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
             { id: 'data.dhw.dhwTargetSetpoint', name: 'DHW Target Setpoint', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
             { id: 'data.dhw.dhwStatus', name: 'DHW Status', read: true, write: false, type: 'string', role: 'value' },

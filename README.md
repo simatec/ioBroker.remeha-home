@@ -32,7 +32,7 @@ This adapter uses the service `Sentry.io` to automatically report exceptions and
 
 ## Description
 
-The ioBroker.remeha-home adapter enables the integration and control of Remeha heating systems via the Remeha Home platform. The adapter continuously connects to the Remeha Home API and retrieves current data to make it available in the ioBroker system. This allows the heating system to be optimally monitored and controlled.
+The ioBroker.remeha-home adapter enables the integration and control of Remeha heating systems via the [Remeha Home platform](https://www.remeha.de/produkte/speicher-und-zubehoer/regelungen/home-app). The adapter continuously connects to the Remeha Home API and retrieves current data to make it available in the ioBroker system. This allows the heating system to be optimally monitored and controlled.
 
 
 ## Functions
@@ -54,6 +54,11 @@ You must enter these in the configuration of the adapter.
 <!-- ### **WORK IN PROGRESS** -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (simatec) States Fix
+* (simatec) Readme Fix
+* (simatec) Test & Release Fix
+
 ### 0.2.0 (2024-09-16)
 * (simatec) Translation Fix
 * (simatec) Code cleaning
