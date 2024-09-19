@@ -134,7 +134,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             { id: 'data.dhw.name', name: 'DHW Name', read: true, write: false, type: 'string', role: 'value' },
             { id: 'data.dhw.gasCalorificValue', name: 'Gas Calorific Value', read: true, write: false, type: 'number', role: 'value.power', unit: 'kWh/m³' },
             { id: 'data.roomThermostat.name', name: 'Thermostat Name', read: true, write: false, type: 'string', role: 'value' },
-            { id: 'data.roomThermostat.setZoneMode', name: 'Set Zone Mode', role: 'level.mode.thermostat', read: true, write: true, type: 'string', states: { 'Scheduling': tools._translate('Scheduling', systemLang), 'Manual': tools._translate('Manual', systemLang), 'FrostProtection': tools._translate('FrostProtection', systemLang) } },
+            { id: 'data.roomThermostat.setZoneMode', name: 'Set Zone Mode', role: 'level.mode.thermostat', read: true, write: true, type: 'string', states: { 'Scheduling': `${await tools._translate('Scheduling', systemLang)}`, 'Manual': `${await tools._translate('Manual', systemLang)}`, 'FrostProtection': `${await tools._translate('FrostProtection', systemLang)}` } },
             { id: 'data.roomThermostat.currentZoneMode', name: 'Current Zone Mode', role: 'level.mode.thermostat', read: true, write: false, type: 'string' },
             { id: 'data.dhw.waterPressureOK', name: 'Water Pressure OK', read: true, write: false, role: 'switch', type: 'boolean' },
             { id: 'data.roomThermostat.firePlaceModeActive', name: 'Fireplace Mode Active', read: true, write: true, role: 'switch', type: 'boolean' },
@@ -153,7 +153,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             await this.setObjectNotExistsAsync(state.id, {
                 type: 'state',
                 common: {
-                    name: tools._translate(state.name, systemLang),
+                    name: await tools._translate(state.name, systemLang),
                     type: state.type || 'number',
                     role: state.role,
                     unit: state.unit || '',
