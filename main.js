@@ -416,7 +416,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             await this.setState('data.roomThermostat.nextSwitchTime', { val: data.appliances[0].climateZones[0].nextSwitchTime, ack: true });
 
             if (_zoneMode !== 'TemporaryOverride') {
-                await this.setState('data.roomThermostat.setZoneMode', { val: _zoneMode, ack: true })
+                await this.setState('data.roomThermostat.setZoneMode', { val: _zoneModeTranslate, ack: true })
             }
 
             const appliance = await this.got.get(`https://api.bdrthermea.net/Mobile/api/appliances/${data?.appliances[0].applianceId}/technicaldetails`, {
