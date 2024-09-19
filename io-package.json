@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "news": {
+      "0.2.2": {
+        "en": "small State Fix",
+        "de": "kleiner Staat Fix",
+        "ru": "малый штат",
+        "pt": "pequeno Estado Fix",
+        "nl": "kleine staat Fix",
+        "fr": "petit État",
+        "it": "piccolo Stato fisso",
+        "es": "pequeños Estados",
+        "pl": "mały stan Fix",
+        "uk": "мала держава виправити",
+        "zh-cn": "小国家"
+      },
       "0.2.1": {
         "en": "States Fix\nReadme Fix\nTest & Release Fix",
         "de": "In den Warenkorb\nReader-Reparatur\nTest & Release Fix",
@@ -80,19 +93,6 @@
         "pl": "Pierwsza Beta",
         "uk": "Перша бета",
         "zh-cn": "第一贝塔"
-      },
-      "0.0.1": {
-        "en": "(simatec) First Commit",
-        "de": "(simatec) Erstes Commit",
-        "ru": "(simatec) First Commit",
-        "pt": "(simatec) Primeiro compromisso",
-        "nl": "(simatec) Eerste commit",
-        "fr": "(simatec) Premier engagement",
-        "it": "(simatec) Primo mandato",
-        "es": "(simatec) Primera comunicación",
-        "pl": "(simatec) Pierwszy komunikat",
-        "uk": "(Simatec) Перший товар",
-        "zh-cn": "(静音) 第一个提交"
       }
     },
     "titleLang": {
