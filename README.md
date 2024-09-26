@@ -56,6 +56,7 @@ You must enter these in the configuration of the adapter.
 ## Changelog
 ### **WORK IN PROGRESS**
 * (simatec) Fix jsonConfig
+* (simatec) Fix for Admin 7.1.5
 
 ### 0.2.2 (2024-09-19)
 * (simatec) small State Fix
