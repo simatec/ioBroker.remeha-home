@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "news": {
+      "0.2.3": {
+        "en": "Fix jsonConfig\nFix for Admin 7.1.5",
+        "de": "Fehlerbehebung jsonConfig\nFix für Admin 7.1.5",
+        "ru": "Fix jsonConfig\n7.1.5",
+        "pt": "Fixar jsonConfig\nFix para Admin 7.1.5",
+        "nl": "Fix jsonConfig\nFix voor Admin 7.1.5",
+        "fr": "Correction de jsonConfig\nCorrection pour Admin 7.1.5",
+        "it": "Fissare jsonConfig\nFissare per Admin 7.1.5",
+        "es": "Corrección jsonConfig\nCorrección para Admin 7.1.5",
+        "pl": "Napraw jsonConfig\nNaprawiono dla Admin 7.1.5",
+        "uk": "Виправлення jsonConfig\nВиправлення для адміністратора 7.1.5",
+        "zh-cn": "修复 Json 连接\n7.1.5 管理员的固定"
+      },
       "0.2.2": {
         "en": "small State Fix",
         "de": "kleiner Staat Fix",
@@ -80,19 +93,6 @@
         "pl": "Popraw skrypt wydania",
         "uk": "Виправлення Release Script",
         "zh-cn": "修复释放脚本"
-      },
-      "0.1.0": {
-        "en": "First Beta",
-        "de": "Erste Beta",
-        "ru": "Первая бета",
-        "pt": "Primeiro Beta",
-        "nl": "Eerste Beta",
-        "fr": "Première bêta",
-        "it": "Prima Beta",
-        "es": "Primera beta",
-        "pl": "Pierwsza Beta",
-        "uk": "Перша бета",
-        "zh-cn": "第一贝塔"
       }
     },
     "titleLang": {
