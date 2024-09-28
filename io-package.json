@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "news": {
+      "0.2.4": {
+        "en": "Fix request error\nDependencies updated",
+        "de": "Fehler bei der Anfrage behoben\nAusgaben aktualisiert",
+        "ru": "Ошибка запроса\nОбновленные данные о зависимостях",
+        "pt": "Corrigir erro de solicitação\nDependências atualizadas",
+        "nl": "Fout in verzoek herstellen\nAfhankelijkheden bijgewerkt",
+        "fr": "Correction de l'erreur de requête\nDépendances actualisées",
+        "it": "Correre l'errore di richiesta\nDipendenze aggiornate",
+        "es": "Error de solicitud de corrección\nActualización de las dependencias",
+        "pl": "Popraw błąd żądania\nAktualizacja zależności",
+        "uk": "Виправлення помилки запиту\nЗалежність оновлено",
+        "zh-cn": "修正请求错误\n更新的依赖关系"
+      },
       "0.2.3": {
         "en": "Fix jsonConfig\nFix for Admin 7.1.5",
         "de": "Fehlerbehebung jsonConfig\nFix für Admin 7.1.5",
@@ -80,19 +93,6 @@
         "pl": "Napraw Zonemode",
         "uk": "Виправлення Zonemode",
         "zh-cn": "固定分区"
-      },
-      "0.1.1": {
-        "en": "Fix Release Script",
-        "de": "Löschen von Skript",
-        "ru": "Fix Release Script",
-        "pt": "Corrigir script de versão",
-        "nl": "Release Script herstellen",
-        "fr": "Correction du script de sortie",
-        "it": "Risolvere lo script di rilascio",
-        "es": "Script de liberación fija",
-        "pl": "Popraw skrypt wydania",
-        "uk": "Виправлення Release Script",
-        "zh-cn": "修复释放脚本"
       }
     },
     "titleLang": {
