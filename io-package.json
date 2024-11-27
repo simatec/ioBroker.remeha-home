@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "news": {
+      "0.2.5": {
+        "en": "Dependencies updated\nFix jsonConfig\nIssue Action added\neslint-config added",
+        "de": "Ausgaben aktualisiert\nFehlerbehebung jsonConfig\nAusgabe Aktion hinzugefügt\neslint-config hinzugefügt",
+        "ru": "Обновленные данные о зависимостях\nFix jsonConfig\nДополнительные меры\nдобавлена eslint-config",
+        "pt": "Dependências atualizadas\nFixar jsonConfig\nAção de problemas adicionada\neslint-config adicionado",
+        "nl": "Afhankelijkheden bijgewerkt\nFix jsonConfig\nOnderwerpactie toegevoegd\neslint-config toegevoegd",
+        "fr": "Dépendances actualisées\nCorrection de jsonConfig\nMesure à prendre\neslint-config ajouté",
+        "it": "Dipendenze aggiornate\nFissare jsonConfig\nAzione di problema aggiunto\neslint-config aggiunto",
+        "es": "Actualización de las dependencias\nCorrección jsonConfig\nTema Acción añadido\neslint-config añadido",
+        "pl": "Aktualizacja zależności\nNapraw jsonConfig\nDodano działanie\neslint- config dodany",
+        "uk": "Залежність оновлено\nВиправлення jsonConfig\nДодана емісія\neslint-config додано",
+        "zh-cn": "更新的依赖关系\n修复 Json 连接\n添加的问题行动\n添加埃斯林特配置"
+      },
       "0.2.4": {
         "en": "Fix request error\nDependencies updated",
         "de": "Fehler bei der Anfrage behoben\nAusgaben aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "Napraw Zonemode\nTłumaczenie dodane",
         "uk": "Виправлення Zonemode\nПереклад додано",
         "zh-cn": "固定分区\n增加了翻译"
-      },
-      "0.1.2": {
-        "en": "Fix Zonemode",
-        "de": "Zurück zur Übersicht",
-        "ru": "Fix Zonemode",
-        "pt": "Fix Zonemode",
-        "nl": "Fix Zonemode",
-        "fr": "Correction du mode zone",
-        "it": "Fix Zonemode",
-        "es": "Modo de zona fijo",
-        "pl": "Napraw Zonemode",
-        "uk": "Виправлення Zonemode",
-        "zh-cn": "固定分区"
       }
     },
     "titleLang": {
