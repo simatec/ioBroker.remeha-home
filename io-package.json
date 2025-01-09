@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "0.2.6",
+    "version": "0.2.7",
     "news": {
+      "0.2.7": {
+        "en": "Fix Update Intervall",
+        "de": "Reparieren Sie das Update",
+        "ru": "Интервал обновлений",
+        "pt": "Intervall de atualização de correção",
+        "nl": "Bijwerken Intervall herstellen",
+        "fr": "Correction de la mise à jour Intervall",
+        "it": "Risolvere l'aggiornamento Intervall",
+        "es": "Intervall de actualización fija",
+        "pl": "Popraw aktualizację Intervall",
+        "uk": "Виправлення оновлення Intervall",
+        "zh-cn": "修复更新接口"
+      },
       "0.2.6": {
         "en": "eslint-config fix\nDependencies updated\nUpdate License",
         "de": "eslint-config fix\nAusgaben aktualisiert\nLizenz aktualisieren",
@@ -80,19 +93,6 @@
         "pl": "Stany\nReadme Fix\nTest & Release Fix",
         "uk": "США виправити\nЗавантажити\nТестування та реліз",
         "zh-cn": "国家\n读取修正\n测试和释放修正"
-      },
-      "0.2.0": {
-        "en": "Translation Fix\nCode cleaning\nReady for Betatest",
-        "de": "Übersetzung Fix\nCodereinigung\nBereit für Betatest",
-        "ru": "Исправление перевода\nОчистка кода\nГотовы к Бетатесту",
-        "pt": "Correção de tradução\nLimpeza de código\nPronto para Betatest",
-        "nl": "Vertaalfix\nCode reiniging\nKlaar voor Betatest",
-        "fr": "Correction de traduction\nNettoyage du code\nPrêt pour Betastest",
-        "it": "Traduzione\nPulizia del codice\nPronto per Betatest",
-        "es": "Traducción\nLimpieza de códigos\nListo para Betatest",
-        "pl": "Tłumaczenie Fix\nCzyszczenie kodu\nGotowy na Betatest",
-        "uk": "Переклад\nЧистка коду\nГотовий для Betatest",
-        "zh-cn": "翻译修正\n代码清理\n准备下注"
       }
     },
     "titleLang": {
