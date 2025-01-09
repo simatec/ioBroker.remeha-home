@@ -53,6 +53,9 @@ You must enter these in the configuration of the adapter.
 ---
 <!-- ### **WORK IN PROGRESS** -->
 ## Changelog
+### **WORK IN PROGRESS**
+* (simatec) Fix Update Intervall
+
 ### 0.2.6 (2025-01-09)
 * (simatec) eslint-config fix
 * (simatec) Dependencies updated

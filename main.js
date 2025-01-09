@@ -142,7 +142,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             { id: 'data.dhw.name', name: 'DHW Name', read: true, write: false, type: 'string', role: 'value' },
             { id: 'data.dhw.gasCalorificValue', name: 'Gas Calorific Value', read: true, write: false, type: 'number', role: 'value.power', unit: 'kWh/m³' },
             { id: 'data.roomThermostat.name', name: 'Thermostat Name', read: true, write: false, type: 'string', role: 'value' },
-            { id: 'data.roomThermostat.setZoneMode', name: 'Set Zone Mode', role: 'level.mode.thermostat', read: true, write: true, type: 'string', states: { 'Scheduling': `${await tools._translate('Scheduling', systemLang)}`, 'Manual': `${await tools._translate('Manual', systemLang)}`, 'FrostProtection': `${await tools._translate('FrostProtection', systemLang)}` } },
+            { id: 'data.roomThermostat.setZoneMode', name: 'Set Zone Mode', role: 'level.mode.thermostat', read: true, write: true, type: 'string', states: { Scheduling: `${await tools._translate('Scheduling', systemLang)}`, Manual: `${await tools._translate('Manual', systemLang)}`, FrostProtection: `${await tools._translate('FrostProtection', systemLang)}` } },
             { id: 'data.roomThermostat.currentZoneMode', name: 'Current Zone Mode', role: 'level.mode.thermostat', read: true, write: false, type: 'string' },
             { id: 'data.dhw.waterPressureOK', name: 'Water Pressure OK', read: true, write: false, role: 'switch', type: 'boolean' },
             { id: 'data.roomThermostat.firePlaceModeActive', name: 'Fireplace Mode Active', read: true, write: true, role: 'switch', type: 'boolean' },
@@ -291,9 +291,9 @@ class RemehaHomeAdapter extends utils.Adapter {
             this.log.debug(`Post Login Status: ${response.statusCode === 200 ? 'OK' : 'failed'}`);
 
         } catch (error) {
-            this.log.error('Error during login:' + error.message);
+            this.log.error(`Error during login: ${error.message}`);
             if (error.response) {
-                this.log.error('Response status:' + error.response.status);
+                this.log.error(`Response status: ${error.response.status}`);
             }
             throw error;
         }
@@ -393,7 +393,7 @@ class RemehaHomeAdapter extends utils.Adapter {
 
             const response = await this.got.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
                 headers: {
-                    'Authorization': `Bearer ${this.accessToken}`,
+                    Authorization: `Bearer ${this.accessToken}`,
                     'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
                     'x-csrf-token': this.csrfToken
                 }
@@ -431,7 +431,7 @@ class RemehaHomeAdapter extends utils.Adapter {
 
             const appliance = await this.got.get(`https://api.bdrthermea.net/Mobile/api/appliances/${data?.appliances[0].applianceId}/technicaldetails`, {
                 headers: {
-                    'Authorization': `Bearer ${this.accessToken}`,
+                    Authorization: `Bearer ${this.accessToken}`,
                     'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
                     'x-csrf-token': this.csrfToken
                 }
@@ -457,7 +457,7 @@ class RemehaHomeAdapter extends utils.Adapter {
         try {
             const response = await this.got.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                     'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
                     'x-csrf-token': this.csrfToken
                 }
@@ -485,7 +485,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             this.postUpdate = false;
 
             const headers = {
-                'Authorization': `Bearer ${this.accessToken}`,
+                Authorization: `Bearer ${this.accessToken}`,
                 'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
                 'x-csrf-token': this.csrfToken
             }
@@ -557,6 +557,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                         }
                         break;
                 }
+                await this.sleep(5000);
                 this.postUpdate = true;
                 await this.updateDevices();
             } catch (getError) {
