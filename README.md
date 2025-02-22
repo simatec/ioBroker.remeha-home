@@ -52,11 +52,10 @@ You must enter these in the configuration of the adapter.
 
 ---
 <!-- ### **WORK IN PROGRESS** -->
-### **WORK IN PROGRESS**
+### 0.2.8 (2025-02-22)
 * (simatec) Dependencies updated
 * (simatec) small Fix
 
-## Changelog
 ### 0.2.7 (2025-01-09)
 * (simatec) Fix Update Intervall
 
