@@ -24,7 +24,6 @@ class RemehaHomeAdapter extends utils.Adapter {
         this.codeChallenge = '';
         this.state = '';
         this.postUpdate = true;
-        this.getUpdate = false;
         this.loadGot();
 
         this.onReady = this.onReady.bind(this);
@@ -61,8 +60,10 @@ class RemehaHomeAdapter extends utils.Adapter {
     }
 
     async onStateChange(id, state) {
-        if (state && !this.getUpdate) {
+        if (state) {
             if (id === `${this.namespace}.data.roomThermostat.setPoint`) {
+                this.postUpdate = false;
+
                 if (!state?.ack) {
                     await this.setState('data.roomThermostat.setPoint', { val: state?.val, ack: true });
                 } else {
@@ -75,6 +76,8 @@ class RemehaHomeAdapter extends utils.Adapter {
             }
 
             if (id === `${this.namespace}.data.roomThermostat.setZoneMode`) {
+                this.postUpdate = false;
+
                 if (!state?.ack) {
                     await this.setState('data.roomThermostat.setZoneMode', { val: state?.val, ack: true });
                 } else {
@@ -101,6 +104,8 @@ class RemehaHomeAdapter extends utils.Adapter {
             }
 
             if (id === `${this.namespace}.data.roomThermostat.firePlaceModeActive`) {
+                this.postUpdate = false;
+
                 if (!state?.ack) {
                     await this.setState('data.roomThermostat.firePlaceModeActive', { val: state?.val, ack: true });
                 } else {
@@ -186,7 +191,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             } else if (this.accessToken !== null && await this.checkTokenValidity(this.accessToken) !== 200) {
                 await this.refreshAccessToken();
             }
-            if (await this.checkTokenValidity(this.accessToken) === 200 && this.postUpdate) {
+            if (await this.checkTokenValidity(this.accessToken) === 200) {
                 await this.updateDevices();
             }
         } catch (error) {
@@ -389,8 +394,6 @@ class RemehaHomeAdapter extends utils.Adapter {
 
     async updateDevices() {
         try {
-            this.getUpdate = true;
-
             const response = await this.got.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
                 headers: {
                     Authorization: `Bearer ${this.accessToken}`,
@@ -408,7 +411,6 @@ class RemehaHomeAdapter extends utils.Adapter {
             await this.setState('data.roomThermostat.roomTemperature', { val: data.appliances[0].climateZones[0].roomTemperature, ack: true });
             await this.setState('data.dhw.outdoorTemperature', { val: data.appliances[0].outdoorTemperature, ack: true });
             await this.setState('data.dhw.waterPressure', { val: data.appliances[0].waterPressure, ack: true });
-            await this.setState('data.roomThermostat.setPoint', { val: data.appliances[0].climateZones[0].setPoint, ack: true });
             await this.setState('data.dhw.dhwTemperature', { val: data.appliances[0].hotWaterZones[0].dhwTemperature, ack: true });
             await this.setState('data.dhw.dhwTargetSetpoint', { val: data.appliances[0].hotWaterZones[0].targetSetpoint, ack: true });
             await this.setState('data.dhw.dhwStatus', { val: data.appliances[0].hotWaterZones[0].dhwStatus, ack: true });
@@ -416,15 +418,19 @@ class RemehaHomeAdapter extends utils.Adapter {
             await this.setState('data.dhw.gasCalorificValue', { val: data.appliances[0].gasCalorificValue, ack: true });
             await this.setState('data.roomThermostat.currentZoneMode', { val: _zoneModeTranslate, ack: true });
             await this.setState('data.dhw.waterPressureOK', { val: data.appliances[0].waterPressureOK, ack: true });
-            await this.setState('data.roomThermostat.firePlaceModeActive', { val: data.appliances[0].climateZones[0].firePlaceModeActive, ack: true });
             await this.setState('data.roomThermostat.name', { val: data.appliances[0].climateZones[0].name, ack: true });
             await this.setState('data.roomThermostat.nextSetpoint', { val: data.appliances[0].climateZones[0].nextSetpoint, ack: true });
             await this.setState('data.roomThermostat.currentScheduleSetPoint', { val: data.appliances[0].climateZones[0].currentScheduleSetPoint, ack: true });
             await this.setState('data.roomThermostat.activeComfortDemand', { val: data.appliances[0].climateZones[0].activeComfortDemand, ack: true });
             await this.setState('data.roomThermostat.nextSwitchTime', { val: data.appliances[0].climateZones[0].nextSwitchTime, ack: true });
 
-            if (_zoneMode !== 'TemporaryOverride') {
+            if (_zoneMode !== 'TemporaryOverride' && !this.postUpdate) {
                 await this.setState('data.roomThermostat.setZoneMode', { val: _zoneMode, ack: true })
+            }
+
+            if (!this.postUpdate) {
+                await this.setState('data.roomThermostat.setPoint', { val: data.appliances[0].climateZones[0].setPoint, ack: true });
+                await this.setState('data.roomThermostat.firePlaceModeActive', { val: data.appliances[0].climateZones[0].firePlaceModeActive, ack: true });
             }
 
             await this.sleep(1000);
@@ -446,9 +452,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             await this.setState('info.softwareVersion', { val: applianceInfo.internetConnectedGateways[0].softwareVersion, ack: true });
             await this.setState('info.hardwareVersion', { val: applianceInfo.internetConnectedGateways[0].hardwareVersion, ack: true });
 
-            this.getUpdate = false;
         } catch (error) {
-            this.getUpdate = false;
             this.log.error(`Error updating devices: ${error}`);
         }
     }
@@ -481,9 +485,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             await this.refreshAccessToken();
         }
 
-        if (await this.checkTokenValidity(this.accessToken) === 200 && this.postUpdate) {
-            this.postUpdate = false;
-
+        if (await this.checkTokenValidity(this.accessToken) === 200) {
             const headers = {
                 Authorization: `Bearer ${this.accessToken}`,
                 'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',

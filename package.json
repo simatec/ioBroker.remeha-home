@@ -79,7 +79,8 @@
     "dev-server-run": "dev-server run remeha-home",
     "dev-server-watch": "dev-server watch remeha-home",
     "npm": "npm install",
-    "lint": "eslint -c eslint.config.mjs ."
+    "lint": "eslint -c eslint.config.mjs .",
+    "update": "ncu -i"
   },
   "bugs": {
     "url": "https://github.com/simatec/ioBroker.remeha-home/issues"
