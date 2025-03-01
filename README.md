@@ -51,6 +51,8 @@ Only the user name (e-mail address) and password of the Remeha Home account are 
 You must enter these in the configuration of the adapter.
 
 ---
+
+## Changelog
 <!-- ### **WORK IN PROGRESS** -->
 ### **WORK IN PROGRESS**
 * (simatec) Fix Update Settings
