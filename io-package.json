@@ -164,6 +164,7 @@
   },
   "native": {
     "account": "",
+    "password": "",
     "pollInterval": 60
   },
   "encryptedNative": [

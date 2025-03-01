@@ -43,6 +43,7 @@ class RemehaHomeAdapter extends utils.Adapter {
     this.codeChallenge = null;
     this.state = "";
     this.postUpdate = false;
+    this.getUpdate = false;
     this.cookieJar = new import_tough_cookie.CookieJar();
     void this.loadGot();
     this.on("ready", this.onReady.bind(this));
@@ -69,7 +70,7 @@ class RemehaHomeAdapter extends utils.Adapter {
     await this.schedulePoll();
   }
   async onStateChange(id, state) {
-    if (state) {
+    if (state && !this.getUpdate) {
       if (id === `${this.namespace}.data.roomThermostat.setPoint`) {
         this.postUpdate = false;
         if (!(state == null ? void 0 : state.ack)) {
@@ -125,6 +126,7 @@ class RemehaHomeAdapter extends utils.Adapter {
       this.clearTimeout(this.timerSleep);
       callback();
     } catch (e) {
+      this.log.error(`Error on unload: ${e}`);
       callback();
     }
   }
@@ -138,7 +140,15 @@ class RemehaHomeAdapter extends utils.Adapter {
     const manual = await (0, import_tools._translate)("Manual", systemLang);
     const frostProtection = await (0, import_tools._translate)("FrostProtection", systemLang);
     const states = [
-      { id: "data.roomThermostat.roomTemperature", name: "Room Temperature", read: true, write: false, type: "number", role: "value.temperature", unit: "\xB0C" },
+      {
+        id: "data.roomThermostat.roomTemperature",
+        name: "Room Temperature",
+        read: true,
+        write: false,
+        type: "number",
+        role: "value.temperature",
+        unit: "\xB0C"
+      },
       { id: "data.dhw.outdoorTemperature", name: "Outdoor Temperature", read: true, write: false, type: "number", role: "value.temperature", unit: "\xB0C" },
       { id: "data.dhw.waterPressure", name: "Water Pressure", read: true, write: false, type: "number", role: "value.pressure", unit: "bar" },
       { id: "data.roomThermostat.setPoint", name: "Set Point Temperature", read: true, write: true, type: "number", role: "level.temperature", unit: "\xB0C" },
@@ -235,7 +245,9 @@ class RemehaHomeAdapter extends utils.Adapter {
       let csrfTokenCookie;
       const cookies = response.headers["set-cookie"];
       if (cookies) {
-        csrfTokenCookie = cookies.find((cookie) => cookie.startsWith("x-ms-cpim-csrf=") && cookie.includes("domain=remehalogin.bdrthermea.net"));
+        csrfTokenCookie = cookies.find(
+          (cookie) => cookie.startsWith("x-ms-cpim-csrf=") && cookie.includes("domain=remehalogin.bdrthermea.net")
+        );
         if (csrfTokenCookie) {
           this.csrfToken = csrfTokenCookie.split(";")[0].replace("x-ms-cpim-csrf=", "").replace(/;$/, "");
         } else {
@@ -254,21 +266,24 @@ class RemehaHomeAdapter extends utils.Adapter {
   }
   async login(stateProperties, csrfToken) {
     try {
-      const response = await this.client.post("bdrb2cprod.onmicrosoft.com/B2C_1A_RPSignUpSignInNewRoomv3.1/SelfAsserted", {
-        searchParams: {
-          tx: `StateProperties=${stateProperties}`,
-          p: "B2C_1A_RPSignUpSignInNewRoomv3.1"
-        },
-        form: {
-          request_type: "RESPONSE",
-          signInName: this.account,
-          password: this.password
-        },
-        headers: {
-          "x-csrf-token": csrfToken
-        },
-        followRedirect: true
-      });
+      const response = await this.client.post(
+        "bdrb2cprod.onmicrosoft.com/B2C_1A_RPSignUpSignInNewRoomv3.1/SelfAsserted",
+        {
+          searchParams: {
+            tx: `StateProperties=${stateProperties}`,
+            p: "B2C_1A_RPSignUpSignInNewRoomv3.1"
+          },
+          form: {
+            request_type: "RESPONSE",
+            signInName: this.account,
+            password: this.password
+          },
+          headers: {
+            "x-csrf-token": csrfToken
+          },
+          followRedirect: true
+        }
+      );
       this.log.debug(`Post Login Status: ${response.statusCode === 200 ? "OK" : "failed"}`);
     } catch (error) {
       this.log.error(`Error during login: ${error.message}`);
@@ -278,15 +293,18 @@ class RemehaHomeAdapter extends utils.Adapter {
       throw error;
     }
     try {
-      const response = await this.client.get("bdrb2cprod.onmicrosoft.com/B2C_1A_RPSignUpSignInNewRoomv3.1/api/CombinedSigninAndSignup/confirmed", {
-        searchParams: {
-          rememberMe: "false",
-          csrf_token: csrfToken,
-          tx: `StateProperties=${stateProperties}`,
-          p: "B2C_1A_RPSignUpSignInNewRoomv3.1"
-        },
-        followRedirect: false
-      });
+      const response = await this.client.get(
+        "bdrb2cprod.onmicrosoft.com/B2C_1A_RPSignUpSignInNewRoomv3.1/api/CombinedSigninAndSignup/confirmed",
+        {
+          searchParams: {
+            rememberMe: "false",
+            csrf_token: csrfToken,
+            tx: `StateProperties=${stateProperties}`,
+            p: "B2C_1A_RPSignUpSignInNewRoomv3.1"
+          },
+          followRedirect: false
+        }
+      );
       this.log.debug(`Get Login Status: ${response.statusCode === 302 ? "OK" : "failed"}`);
       const parsedCallbackUrl = new import_url.URL(response.headers.location);
       if (parsedCallbackUrl) {
@@ -388,22 +406,29 @@ class RemehaHomeAdapter extends utils.Adapter {
       await this.setState("data.roomThermostat.currentScheduleSetPoint", { val: data.appliances[0].climateZones[0].currentScheduleSetPoint, ack: true });
       await this.setState("data.roomThermostat.activeComfortDemand", { val: data.appliances[0].climateZones[0].activeComfortDemand, ack: true });
       await this.setState("data.roomThermostat.nextSwitchTime", { val: data.appliances[0].climateZones[0].nextSwitchTime, ack: true });
-      if (_zoneMode !== "TemporaryOverride" && !this.postUpdate) {
-        await this.setState("data.roomThermostat.setZoneMode", { val: _zoneMode, ack: true });
-      }
       this.log.debug(`postUpdate: ${this.postUpdate}`);
+      if (_zoneMode !== "TemporaryOverride" && !this.postUpdate) {
+        this.getUpdate = true;
+        await this.setState("data.roomThermostat.setZoneMode", { val: _zoneMode, ack: true });
+        this.getUpdate = false;
+      }
       if (!this.postUpdate) {
+        this.getUpdate = true;
         await this.setState("data.roomThermostat.setPoint", { val: data.appliances[0].climateZones[0].setPoint, ack: true });
         await this.setState("data.roomThermostat.firePlaceModeActive", { val: data.appliances[0].climateZones[0].firePlaceModeActive, ack: true });
+        this.getUpdate = false;
       }
       await this.sleep(1e3);
-      const appliance = await this.got.get(`https://api.bdrthermea.net/Mobile/api/appliances/${data == null ? void 0 : data.appliances[0].applianceId}/technicaldetails`, {
-        headers: {
-          Authorization: `Bearer ${this.accessToken}`,
-          "Ocp-Apim-Subscription-Key": "df605c5470d846fc91e848b1cc653ddf",
-          "x-csrf-token": this.csrfToken
+      const appliance = await this.got.get(
+        `https://api.bdrthermea.net/Mobile/api/appliances/${data == null ? void 0 : data.appliances[0].applianceId}/technicaldetails`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`,
+            "Ocp-Apim-Subscription-Key": "df605c5470d846fc91e848b1cc653ddf",
+            "x-csrf-token": this.csrfToken
+          }
         }
-      });
+      );
       this.log.debug(`Get Device Info Status: ${appliance.statusCode === 200 ? "OK" : "failed"}`);
       const applianceInfo = JSON.parse(appliance.body);
       await this.setState("info.applianceName", { val: applianceInfo.applianceName, ack: true });
@@ -429,7 +454,7 @@ class RemehaHomeAdapter extends utils.Adapter {
       await this.sleep(500);
       return response.statusCode;
     } catch (error) {
-      this.log.debug("Token validity check failed. An attempt is being made to obtain a new token");
+      this.log.debug(`Token validity check failed. An attempt is being made to obtain a new token: ${error}`);
       await this.setState("info.connection", false, true);
       return false;
     }
@@ -461,11 +486,14 @@ class RemehaHomeAdapter extends utils.Adapter {
           case "setPoint":
             if (valueZoneMode !== "Manual" || valueSetpoint !== (postData == null ? void 0 : postData.roomTemperatureSetPoint)) {
               try {
-                const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/${valueZoneMode !== "Manual" ? "temporary-override" : "manual"}`, {
-                  headers,
-                  json: postData,
-                  responseType: "json"
-                });
+                const postResponse = await this.got.post(
+                  `https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/${valueZoneMode !== "Manual" ? "temporary-override" : "manual"}`,
+                  {
+                    headers,
+                    json: postData,
+                    responseType: "json"
+                  }
+                );
                 this.log.debug(`Post SetPoint: ${postResponse.statusCode === 200 ? "OK" : "failed"}`);
               } catch (postError) {
                 this.log.error(`Error making POST request SetPoint: ${postError}`);
@@ -477,11 +505,14 @@ class RemehaHomeAdapter extends utils.Adapter {
           case "fireplaceModeActive":
             if (valueFireplaceMode !== (postData == null ? void 0 : postData.firePlaceModeActive)) {
               try {
-                const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/fireplacemode`, {
-                  headers,
-                  json: postData,
-                  responseType: "json"
-                });
+                const postResponse = await this.got.post(
+                  `https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/fireplacemode`,
+                  {
+                    headers,
+                    json: postData,
+                    responseType: "json"
+                  }
+                );
                 this.log.debug(`Post fireplacemode: ${postResponse.statusCode === 200 ? "OK" : "failed"}`);
               } catch (postError) {
                 this.log.error(`Error making POST request for fireplacemode: ${postError}`);
@@ -494,11 +525,14 @@ class RemehaHomeAdapter extends utils.Adapter {
             if (valueZoneMode !== (postData == null ? void 0 : postData.zoneMode)) {
               const jsonData = (postData == null ? void 0 : postData.zoneMode) === "Scheduling" ? { heatingProgramId: valueProgNumber } : (postData == null ? void 0 : postData.zoneMode) === "Manual" ? { roomTemperatureSetPoint: valueSetpoint } : null;
               try {
-                const postResponse = await this.got.post(`https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/${postData == null ? void 0 : postData.value}`, {
-                  headers,
-                  json: jsonData,
-                  responseType: "json"
-                });
+                const postResponse = await this.got.post(
+                  `https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/${postData == null ? void 0 : postData.value}`,
+                  {
+                    headers,
+                    json: jsonData,
+                    responseType: "json"
+                  }
+                );
                 this.log.debug(`Post ZoneMode: ${postResponse.statusCode === 200 ? "OK" : "failed"}`);
               } catch (postError) {
                 this.log.error(`Error making POST request for zoneMode: ${postError}`);

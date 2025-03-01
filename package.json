@@ -79,6 +79,7 @@
     "check": "tsc --noEmit",
     "coverage": "nyc npm run test:ts",
     "test:package": "mocha test/package --exit",
+    "test:unit": "mocha test/unit --exit",
     "test:integration": "mocha test/integration --exit",
     "release": "release-script",
     "release-patch": "release-script patch --yes",
