@@ -25,8 +25,8 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.2.3",
-    "got": "^13.0.0",
-    "tough-cookie": "^5.1.1",
+    "@esm2cjs/got": "^13.0.0",
+    "tough-cookie": "^5.1.2",
     "url": "^0.11.4"
   },
   "devDependencies": {
@@ -37,19 +37,22 @@
     "@iobroker/adapter-dev": "^1.4.0",
     "@iobroker/eslint-config": "^1.0.0",
     "@iobroker/testing": "^5.0.3",
+    "@tsconfig/node20": "^20.1.4",
+    "@types/mocha": "^10.0.10",
     "chai": "^4.5.0",
     "chai-as-promised": "^7.1.2",
     "mocha": "^11.1.0",
+    "rimraf": "^6.0.1",
     "sinon": "^18.0.0",
-    "sinon-chai": "^3.7.0"
+    "sinon-chai": "^3.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   },
-  "main": "main.js",
+  "main": "build/main.js",
   "files": [
-    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).json",
+    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).{json,json5}",
     "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
-    "admin{,/!(i18n)/**}/flat.txt",
-    "lib/",
-    "!lib/**/*.{sh,bat,log}",
+    "build/",
     "!.dev-server",
     "!.vscode",
     "!.github",
@@ -61,15 +64,21 @@
     "!tasks",
     "!.idea",
     "!test",
-    "www/",
     "io-package.json",
-    "LICENSE",
-    "main.js"
+    "LICENSE"
   ],
   "scripts": {
-    "test": "npm run test:package && npm run test:unit",
+    "prebuild": "rimraf build",
+    "build": "build-adapter ts",
+    "watch": "build-adapter ts --watch",
+    "prebuild:ts": "rimraf build",
+    "build:ts": "build-adapter ts",
+    "watch:ts": "build-adapter ts --watch",
+    "test:ts": "mocha --config test/mocharc.custom.json src/**/*.test.ts",
+    "test": "npm run test:ts && npm run test:package",
+    "check": "tsc --noEmit",
+    "coverage": "nyc npm run test:ts",
     "test:package": "mocha test/package --exit",
-    "test:unit": "mocha test/unit --exit",
     "test:integration": "mocha test/integration --exit",
     "release": "release-script",
     "release-patch": "release-script patch --yes",
@@ -81,6 +90,26 @@
     "npm": "npm install",
     "lint": "eslint -c eslint.config.mjs .",
     "update": "ncu -i"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/**/*.test.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
   },
   "bugs": {
     "url": "https://github.com/simatec/ioBroker.remeha-home/issues"

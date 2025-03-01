@@ -54,6 +54,7 @@ You must enter these in the configuration of the adapter.
 <!-- ### **WORK IN PROGRESS** -->
 ### **WORK IN PROGRESS**
 * (simatec) Fix Update Settings
+* (simatec) Rewrite in Typescript
 
 ### 0.2.8 (2025-02-22)
 * (simatec) Dependencies updated
