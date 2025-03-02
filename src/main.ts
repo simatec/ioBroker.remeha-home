@@ -175,28 +175,177 @@ class RemehaHomeAdapter extends utils.Adapter {
                 role: 'value.temperature',
                 unit: '°C',
             },
-            { id: 'data.dhw.outdoorTemperature', name: 'Outdoor Temperature', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
-            { id: 'data.dhw.waterPressure', name: 'Water Pressure', read: true, write: false, type: 'number', role: 'value.pressure', unit: 'bar' },
-            { id: 'data.roomThermostat.setPoint', name: 'Set Point Temperature', read: true, write: true, type: 'number', role: 'level.temperature', unit: '°C' },
-            { id: 'data.dhw.dhwTemperature', name: 'DHW Temperature', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
-            { id: 'data.dhw.dhwTargetSetpoint', name: 'DHW Target Setpoint', read: true, write: false, type: 'number', role: 'value.temperature', unit: '°C' },
-            { id: 'data.dhw.dhwStatus', name: 'DHW Status', read: true, write: false, type: 'string', role: 'value' },
-            { id: 'data.dhw.name', name: 'DHW Name', read: true, write: false, type: 'string', role: 'value' },
-            { id: 'data.dhw.gasCalorificValue', name: 'Gas Calorific Value', read: true, write: false, type: 'number', role: 'value.power', unit: 'kWh/m³' },
-            { id: 'data.roomThermostat.name', name: 'Thermostat Name', read: true, write: false, type: 'string', role: 'value' },
-            { id: 'data.roomThermostat.setZoneMode', name: 'Set Zone Mode', role: 'level.mode.thermostat', read: true, write: true, type: 'string', states: { Scheduling: scheduling, Manual: manual, FrostProtection: frostProtection } },
-            { id: 'data.roomThermostat.currentZoneMode', name: 'Current Zone Mode', role: 'level.mode.thermostat', read: true, write: false, type: 'string' },
-            { id: 'data.dhw.waterPressureOK', name: 'Water Pressure OK', read: true, write: false, role: 'switch', type: 'boolean' },
-            { id: 'data.roomThermostat.firePlaceModeActive', name: 'Fireplace Mode Active', read: true, write: true, role: 'switch', type: 'boolean' },
-            { id: 'data.roomThermostat.nextSetpoint', name: 'next Setpoint', read: true, write: false, role: 'value.temperature', type: 'number', unit: '°C' },
-            { id: 'data.roomThermostat.currentScheduleSetPoint', name: 'current Schedule SetPoint', read: false, write: false, role: 'value.temperature', type: 'number', unit: '°C' },
-            { id: 'data.roomThermostat.nextSwitchTime', name: 'next Switch Time', read: true, write: false, role: 'value.datetime', type: 'string' },
-            { id: 'data.roomThermostat.activeComfortDemand', name: 'active Comfort Demand', read: true, write: false, role: 'value', type: 'string' },
+            {
+                id: 'data.dhw.outdoorTemperature',
+                name: 'Outdoor Temperature',
+                read: true,
+                write: false,
+                type: 'number',
+                role: 'value.temperature',
+                unit: '°C',
+            },
+            {
+                id: 'data.dhw.waterPressure',
+                name: 'Water Pressure',
+                read: true,
+                write: false,
+                type: 'number',
+                role: 'value.pressure',
+                unit: 'bar',
+            },
+            {
+                id: 'data.roomThermostat.setPoint',
+                name: 'Set Point Temperature',
+                read: true,
+                write: true,
+                type: 'number',
+                role: 'level.temperature',
+                unit: '°C',
+            },
+            {
+                id: 'data.dhw.dhwTemperature',
+                name: 'DHW Temperature',
+                read: true,
+                write: false,
+                type: 'number',
+                role: 'value.temperature',
+                unit: '°C',
+            },
+            {
+                id: 'data.dhw.dhwTargetSetpoint',
+                name: 'DHW Target Setpoint',
+                read: true,
+                write: false,
+                type: 'number',
+                role: 'value.temperature',
+                unit: '°C',
+            },
+            {
+                id: 'data.dhw.dhwStatus',
+                name: 'DHW Status',
+                read: true,
+                write: false,
+                type: 'string',
+                role: 'value',
+            },
+            {
+                id: 'data.dhw.name',
+                name: 'DHW Name',
+                read: true,
+                write: false,
+                type: 'string',
+                role: 'value',
+            },
+            {
+                id: 'data.dhw.gasCalorificValue',
+                name: 'Gas Calorific Value',
+                read: true,
+                write: false,
+                type: 'number',
+                role: 'value.power',
+                unit: 'kWh/m³',
+            },
+            {
+                id: 'data.roomThermostat.name',
+                name: 'Thermostat Name',
+                read: true,
+                write: false,
+                type: 'string',
+                role: 'value',
+            },
+            {
+                id: 'data.roomThermostat.setZoneMode',
+                name: 'Set Zone Mode',
+                role: 'level.mode.thermostat',
+                read: true,
+                write: true,
+                type: 'string',
+                states: { Scheduling: scheduling, Manual: manual, FrostProtection: frostProtection },
+            },
+            {
+                id: 'data.roomThermostat.currentZoneMode',
+                name: 'Current Zone Mode',
+                role: 'level.mode.thermostat',
+                read: true,
+                write: false,
+                type: 'string',
+            },
+            {
+                id: 'data.dhw.waterPressureOK',
+                name: 'Water Pressure OK',
+                read: true,
+                write: false,
+                role: 'switch',
+                type: 'boolean',
+            },
+            {
+                id: 'data.roomThermostat.firePlaceModeActive',
+                name: 'Fireplace Mode Active',
+                read: true,
+                write: true,
+                role: 'switch',
+                type: 'boolean',
+            },
+            {
+                id: 'data.roomThermostat.nextSetpoint',
+                name: 'next Setpoint',
+                read: true,
+                write: false,
+                role: 'value.temperature',
+                type: 'number',
+                unit: '°C',
+            },
+            {
+                id: 'data.roomThermostat.currentScheduleSetPoint',
+                name: 'current Schedule SetPoint',
+                read: false,
+                write: false,
+                role: 'value.temperature',
+                type: 'number',
+                unit: '°C',
+            },
+            {
+                id: 'data.roomThermostat.nextSwitchTime',
+                name: 'next Switch Time',
+                read: true,
+                write: false,
+                role: 'value.datetime',
+                type: 'string',
+            },
+            {
+                id: 'data.roomThermostat.activeComfortDemand',
+                name: 'active Comfort Demand',
+                read: true,
+                write: false,
+                role: 'value',
+                type: 'string',
+            },
             { id: 'info.deviceType', name: 'Device Type', read: true, write: false, role: 'value', type: 'string' },
             { id: 'info.serialNumber', name: 'Serial Number', read: true, write: false, role: 'value', type: 'string' },
-            { id: 'info.softwareVersion', name: 'Software Version', read: true, write: false, role: 'value', type: 'string' },
-            { id: 'info.hardwareVersion', name: 'Hardware Version', read: true, write: false, role: 'value', type: 'string' },
-            { id: 'info.applianceName', name: 'Appliance Name', read: true, write: false, role: 'value', type: 'string' },
+            {
+                id: 'info.softwareVersion',
+                name: 'Software Version',
+                read: true,
+                write: false,
+                role: 'value',
+                type: 'string',
+            },
+            {
+                id: 'info.hardwareVersion',
+                name: 'Hardware Version',
+                read: true,
+                write: false,
+                role: 'value',
+                type: 'string',
+            },
+            {
+                id: 'info.applianceName',
+                name: 'Appliance Name',
+                read: true,
+                write: false,
+                role: 'value',
+                type: 'string',
+            },
         ];
 
         for (const state of states) {
@@ -442,7 +591,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                     Authorization: `Bearer ${this.accessToken}`,
                     'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
                     'x-csrf-token': this.csrfToken,
-                }
+                },
             });
             this.log.debug(`Get Update Status: ${response.statusCode === 200 ? 'OK' : 'failed'}`);
 
@@ -451,21 +600,51 @@ class RemehaHomeAdapter extends utils.Adapter {
             const _zoneMode = data.appliances[0].climateZones[0].zoneMode;
             const _zoneModeTranslate = await _translate(_zoneMode, systemLang);
 
-            await this.setState('data.roomThermostat.roomTemperature', { val: data.appliances[0].climateZones[0].roomTemperature, ack: true });
-            await this.setState('data.dhw.outdoorTemperature', { val: data.appliances[0].outdoorTemperature, ack: true });
+            await this.setState('data.roomThermostat.roomTemperature', {
+                val: data.appliances[0].climateZones[0].roomTemperature,
+                ack: true,
+            });
+            await this.setState('data.dhw.outdoorTemperature', {
+                val: data.appliances[0].outdoorTemperature,
+                ack: true,
+            });
             await this.setState('data.dhw.waterPressure', { val: data.appliances[0].waterPressure, ack: true });
-            await this.setState('data.dhw.dhwTemperature', { val: data.appliances[0].hotWaterZones[0].dhwTemperature, ack: true });
-            await this.setState('data.dhw.dhwTargetSetpoint', { val: data.appliances[0].hotWaterZones[0].targetSetpoint, ack: true });
-            await this.setState('data.dhw.dhwStatus', { val: data.appliances[0].hotWaterZones[0].dhwStatus, ack: true });
+            await this.setState('data.dhw.dhwTemperature', {
+                val: data.appliances[0].hotWaterZones[0].dhwTemperature,
+                ack: true,
+            });
+            await this.setState('data.dhw.dhwTargetSetpoint', {
+                val: data.appliances[0].hotWaterZones[0].targetSetpoint,
+                ack: true,
+            });
+            await this.setState('data.dhw.dhwStatus', {
+                val: data.appliances[0].hotWaterZones[0].dhwStatus,
+                ack: true,
+            });
             await this.setState('data.dhw.name', { val: data.appliances[0].hotWaterZones[0].name, ack: true });
             await this.setState('data.dhw.gasCalorificValue', { val: data.appliances[0].gasCalorificValue, ack: true });
             await this.setState('data.roomThermostat.currentZoneMode', { val: _zoneModeTranslate, ack: true });
             await this.setState('data.dhw.waterPressureOK', { val: data.appliances[0].waterPressureOK, ack: true });
-            await this.setState('data.roomThermostat.name', { val: data.appliances[0].climateZones[0].name, ack: true });
-            await this.setState('data.roomThermostat.nextSetpoint', { val: data.appliances[0].climateZones[0].nextSetpoint, ack: true });
-            await this.setState('data.roomThermostat.currentScheduleSetPoint', { val: data.appliances[0].climateZones[0].currentScheduleSetPoint, ack: true });
-            await this.setState('data.roomThermostat.activeComfortDemand', { val: data.appliances[0].climateZones[0].activeComfortDemand, ack: true });
-            await this.setState('data.roomThermostat.nextSwitchTime', { val: data.appliances[0].climateZones[0].nextSwitchTime, ack: true });
+            await this.setState('data.roomThermostat.name', {
+                val: data.appliances[0].climateZones[0].name,
+                ack: true,
+            });
+            await this.setState('data.roomThermostat.nextSetpoint', {
+                val: data.appliances[0].climateZones[0].nextSetpoint,
+                ack: true,
+            });
+            await this.setState('data.roomThermostat.currentScheduleSetPoint', {
+                val: data.appliances[0].climateZones[0].currentScheduleSetPoint,
+                ack: true,
+            });
+            await this.setState('data.roomThermostat.activeComfortDemand', {
+                val: data.appliances[0].climateZones[0].activeComfortDemand,
+                ack: true,
+            });
+            await this.setState('data.roomThermostat.nextSwitchTime', {
+                val: data.appliances[0].climateZones[0].nextSwitchTime,
+                ack: true,
+            });
 
             this.log.debug(`postUpdate: ${this.postUpdate}`);
 
@@ -477,8 +656,14 @@ class RemehaHomeAdapter extends utils.Adapter {
 
             if (!this.postUpdate) {
                 this.getUpdate = true;
-                await this.setState('data.roomThermostat.setPoint', { val: data.appliances[0].climateZones[0].setPoint, ack: true });
-                await this.setState('data.roomThermostat.firePlaceModeActive', { val: data.appliances[0].climateZones[0].firePlaceModeActive, ack: true });
+                await this.setState('data.roomThermostat.setPoint', {
+                    val: data.appliances[0].climateZones[0].setPoint,
+                    ack: true,
+                });
+                await this.setState('data.roomThermostat.firePlaceModeActive', {
+                    val: data.appliances[0].climateZones[0].firePlaceModeActive,
+                    ack: true,
+                });
                 this.getUpdate = false;
             }
 
@@ -499,11 +684,22 @@ class RemehaHomeAdapter extends utils.Adapter {
             const applianceInfo = JSON.parse(appliance.body);
 
             await this.setState('info.applianceName', { val: applianceInfo.applianceName, ack: true });
-            await this.setState('info.deviceType', { val: applianceInfo.internetConnectedGateways[0].deviceTypeName, ack: true });
-            await this.setState('info.serialNumber', { val: applianceInfo.internetConnectedGateways[0].serialNumber, ack: true });
-            await this.setState('info.softwareVersion', { val: applianceInfo.internetConnectedGateways[0].softwareVersion, ack: true });
-            await this.setState('info.hardwareVersion', { val: applianceInfo.internetConnectedGateways[0].hardwareVersion, ack: true });
-
+            await this.setState('info.deviceType', {
+                val: applianceInfo.internetConnectedGateways[0].deviceTypeName,
+                ack: true,
+            });
+            await this.setState('info.serialNumber', {
+                val: applianceInfo.internetConnectedGateways[0].serialNumber,
+                ack: true,
+            });
+            await this.setState('info.softwareVersion', {
+                val: applianceInfo.internetConnectedGateways[0].softwareVersion,
+                ack: true,
+            });
+            await this.setState('info.hardwareVersion', {
+                val: applianceInfo.internetConnectedGateways[0].hardwareVersion,
+                ack: true,
+            });
         } catch (error) {
             this.log.error(`Error updating devices: ${error}`);
         }
@@ -551,7 +747,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 Authorization: `Bearer ${this.accessToken}`,
                 'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
                 'x-csrf-token': this.csrfToken,
-            }
+            };
             try {
                 const response = await this.got.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
                     headers: headers,
@@ -562,7 +758,8 @@ class RemehaHomeAdapter extends utils.Adapter {
                 const valueSetpoint = responseJson.appliances[0].climateZones[0].setPoint;
                 const valueFireplaceMode = responseJson.appliances[0].climateZones[0].firePlaceModeActive;
                 const valueZoneMode = responseJson.appliances[0].climateZones[0].zoneMode;
-                const valueProgNumber = responseJson.appliances[0].climateZones[0].activeHeatingClimateTimeProgramNumber;
+                const valueProgNumber =
+                    responseJson.appliances[0].climateZones[0].activeHeatingClimateTimeProgramNumber;
 
                 await this.sleep(1000);
 
@@ -599,7 +796,9 @@ class RemehaHomeAdapter extends utils.Adapter {
                                     },
                                 );
 
-                                this.log.debug(`Post fireplacemode: ${postResponse.statusCode === 200 ? 'OK' : 'failed'}`);
+                                this.log.debug(
+                                    `Post fireplacemode: ${postResponse.statusCode === 200 ? 'OK' : 'failed'}`,
+                                );
                             } catch (postError) {
                                 this.log.error(`Error making POST request for fireplacemode: ${postError}`);
                             }
