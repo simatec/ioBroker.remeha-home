@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "0.2.8",
+    "version": "1.0.0",
     "news": {
+      "1.0.0": {
+        "en": "Fix Update Settings\nRewrite in Typescript",
+        "de": "Updateeinstellungen festlegen\nRewrite in Typescript",
+        "ru": "Настройки обновлений Fix\nПереписать в Typescript",
+        "pt": "Definir configurações de atualização\nReescrever no Typescript",
+        "nl": "Updateinstellingen herstellen\nHerschrijven in typescript",
+        "fr": "Correction des paramètres de mise à jour\nRéécrire dans Typescript",
+        "it": "Impostazioni di aggiornamento\nRiscrivi in Tipografia",
+        "es": "Ajustes de actualización\nReescribir en Tiposcript",
+        "pl": "Napraw ustawienia aktualizacji\nPrzepisz na maszynie",
+        "uk": "Виправлення параметрів оновлення\nРевізити в Typescript",
+        "zh-cn": "修正更新设置\n在字体中重写"
+      },
       "0.2.8": {
         "en": "Dependencies updated\nsmall Fix",
         "de": "Ausgaben aktualisiert\nkleiner Fix",
@@ -80,19 +93,6 @@
         "pl": "Napraw jsonConfig\nNaprawiono dla Admin 7.1.5",
         "uk": "Виправлення jsonConfig\nВиправлення для адміністратора 7.1.5",
         "zh-cn": "修复 Json 连接\n7.1.5 管理员的固定"
-      },
-      "0.2.2": {
-        "en": "small State Fix",
-        "de": "kleiner Staat Fix",
-        "ru": "малый штат",
-        "pt": "pequeno Estado Fix",
-        "nl": "kleine staat Fix",
-        "fr": "petit État",
-        "it": "piccolo Stato fisso",
-        "es": "pequeños Estados",
-        "pl": "mały stan Fix",
-        "uk": "мала держава виправити",
-        "zh-cn": "小国家"
       }
     },
     "titleLang": {
