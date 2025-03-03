@@ -294,8 +294,22 @@ class RemehaHomeAdapter extends utils.Adapter {
         role: "value",
         type: "string"
       },
-      { id: "info.deviceType", name: "Device Type", read: true, write: false, role: "value", type: "string" },
-      { id: "info.serialNumber", name: "Serial Number", read: true, write: false, role: "value", type: "string" },
+      {
+        id: "info.deviceType",
+        name: "Device Type",
+        read: true,
+        write: false,
+        role: "value",
+        type: "string"
+      },
+      {
+        id: "info.serialNumber",
+        name: "Serial Number",
+        read: true,
+        write: false,
+        role: "value",
+        type: "string"
+      },
       {
         id: "info.softwareVersion",
         name: "Software Version",
@@ -548,7 +562,10 @@ class RemehaHomeAdapter extends utils.Adapter {
         val: data.appliances[0].outdoorTemperature,
         ack: true
       });
-      await this.setState("data.dhw.waterPressure", { val: data.appliances[0].waterPressure, ack: true });
+      await this.setState("data.dhw.waterPressure", {
+        val: data.appliances[0].waterPressure,
+        ack: true
+      });
       await this.setState("data.dhw.dhwTemperature", {
         val: data.appliances[0].hotWaterZones[0].dhwTemperature,
         ack: true
@@ -561,10 +578,22 @@ class RemehaHomeAdapter extends utils.Adapter {
         val: data.appliances[0].hotWaterZones[0].dhwStatus,
         ack: true
       });
-      await this.setState("data.dhw.name", { val: data.appliances[0].hotWaterZones[0].name, ack: true });
-      await this.setState("data.dhw.gasCalorificValue", { val: data.appliances[0].gasCalorificValue, ack: true });
-      await this.setState("data.roomThermostat.currentZoneMode", { val: _zoneModeTranslate, ack: true });
-      await this.setState("data.dhw.waterPressureOK", { val: data.appliances[0].waterPressureOK, ack: true });
+      await this.setState("data.dhw.name", {
+        val: data.appliances[0].hotWaterZones[0].name,
+        ack: true
+      });
+      await this.setState("data.dhw.gasCalorificValue", {
+        val: data.appliances[0].gasCalorificValue,
+        ack: true
+      });
+      await this.setState("data.roomThermostat.currentZoneMode", {
+        val: _zoneModeTranslate,
+        ack: true
+      });
+      await this.setState("data.dhw.waterPressureOK", {
+        val: data.appliances[0].waterPressureOK,
+        ack: true
+      });
       await this.setState("data.roomThermostat.name", {
         val: data.appliances[0].climateZones[0].name,
         ack: true
@@ -588,7 +617,10 @@ class RemehaHomeAdapter extends utils.Adapter {
       this.log.debug(`postUpdate: ${this.postUpdate}`);
       if (_zoneMode !== "TemporaryOverride" && !this.postUpdate) {
         this.getUpdate = true;
-        await this.setState("data.roomThermostat.setZoneMode", { val: _zoneMode, ack: true });
+        await this.setState("data.roomThermostat.setZoneMode", {
+          val: _zoneMode,
+          ack: true
+        });
         this.getUpdate = false;
       }
       if (!this.postUpdate) {
@@ -616,7 +648,10 @@ class RemehaHomeAdapter extends utils.Adapter {
       );
       this.log.debug(`Get Device Info Status: ${appliance.statusCode === 200 ? "OK" : "failed"}`);
       const applianceInfo = JSON.parse(appliance.body);
-      await this.setState("info.applianceName", { val: applianceInfo.applianceName, ack: true });
+      await this.setState("info.applianceName", {
+        val: applianceInfo.applianceName,
+        ack: true
+      });
       await this.setState("info.deviceType", {
         val: applianceInfo.internetConnectedGateways[0].deviceTypeName,
         ack: true

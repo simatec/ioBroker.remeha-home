@@ -320,8 +320,22 @@ class RemehaHomeAdapter extends utils.Adapter {
                 role: 'value',
                 type: 'string',
             },
-            { id: 'info.deviceType', name: 'Device Type', read: true, write: false, role: 'value', type: 'string' },
-            { id: 'info.serialNumber', name: 'Serial Number', read: true, write: false, role: 'value', type: 'string' },
+            {
+                id: 'info.deviceType',
+                name: 'Device Type',
+                read: true,
+                write: false,
+                role: 'value',
+                type: 'string',
+            },
+            {
+                id: 'info.serialNumber',
+                name: 'Serial Number',
+                read: true,
+                write: false,
+                role: 'value',
+                type: 'string',
+            },
             {
                 id: 'info.softwareVersion',
                 name: 'Software Version',
@@ -511,6 +525,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             if (parsedCallbackUrl) {
                 const queryStringDict = parsedCallbackUrl.searchParams;
                 const code = queryStringDict.get('code');
+
                 if (code) {
                     return code;
                 } else {
@@ -519,10 +534,12 @@ class RemehaHomeAdapter extends utils.Adapter {
             } else {
                 this.log.debug('No redirect URL found in response headers.');
             }
+
             this.log.debug('Authorization code not found in redirect URL.');
             return null;
         } catch (error) {
             this.log.error(`Error get code: ${error}`);
+
             if (error.response) {
                 this.log.error(`Response error Status: ${error.response}`);
             }
@@ -539,6 +556,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 code_verifier: this.codeChallenge,
                 client_id: '6ce007c6-0628-419e-88f4-bee2e6418eec',
             };
+
             const response = await this.client.post('bdrb2cprod.onmicrosoft.com/oauth2/v2.0/token', {
                 searchParams: {
                     p: 'B2C_1A_RPSignUpSignInNewRoomV3.1',
@@ -547,10 +565,13 @@ class RemehaHomeAdapter extends utils.Adapter {
                 followRedirect: true,
                 responseType: 'json',
             });
+
             this.log.debug(`Get Accesstoken Status: ${response.statusCode === 200 ? 'OK' : 'failed'}`);
+
             const data = response.body as { access_token: string; refresh_token: string };
             this.accessToken = data.access_token;
             this.refreshToken = data.refresh_token;
+
             return this.accessToken;
         } catch (error) {
             this.log.error(`Error fetching access token: ${error}`);
@@ -576,6 +597,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             });
 
             this.log.debug(`Get Refreshtoken Status: ${response.statusCode === 200 ? 'OK' : 'failed'}`);
+
             const data = response.body as { access_token: string; refresh_token: string };
             this.accessToken = data.access_token;
         } catch (error) {
@@ -608,7 +630,10 @@ class RemehaHomeAdapter extends utils.Adapter {
                 val: data.appliances[0].outdoorTemperature,
                 ack: true,
             });
-            await this.setState('data.dhw.waterPressure', { val: data.appliances[0].waterPressure, ack: true });
+            await this.setState('data.dhw.waterPressure', {
+                val: data.appliances[0].waterPressure,
+                ack: true,
+            });
             await this.setState('data.dhw.dhwTemperature', {
                 val: data.appliances[0].hotWaterZones[0].dhwTemperature,
                 ack: true,
@@ -621,10 +646,22 @@ class RemehaHomeAdapter extends utils.Adapter {
                 val: data.appliances[0].hotWaterZones[0].dhwStatus,
                 ack: true,
             });
-            await this.setState('data.dhw.name', { val: data.appliances[0].hotWaterZones[0].name, ack: true });
-            await this.setState('data.dhw.gasCalorificValue', { val: data.appliances[0].gasCalorificValue, ack: true });
-            await this.setState('data.roomThermostat.currentZoneMode', { val: _zoneModeTranslate, ack: true });
-            await this.setState('data.dhw.waterPressureOK', { val: data.appliances[0].waterPressureOK, ack: true });
+            await this.setState('data.dhw.name', {
+                val: data.appliances[0].hotWaterZones[0].name,
+                ack: true,
+            });
+            await this.setState('data.dhw.gasCalorificValue', {
+                val: data.appliances[0].gasCalorificValue,
+                ack: true,
+            });
+            await this.setState('data.roomThermostat.currentZoneMode', {
+                val: _zoneModeTranslate,
+                ack: true,
+            });
+            await this.setState('data.dhw.waterPressureOK', {
+                val: data.appliances[0].waterPressureOK,
+                ack: true,
+            });
             await this.setState('data.roomThermostat.name', {
                 val: data.appliances[0].climateZones[0].name,
                 ack: true,
@@ -650,12 +687,18 @@ class RemehaHomeAdapter extends utils.Adapter {
 
             if (_zoneMode !== 'TemporaryOverride' && !this.postUpdate) {
                 this.getUpdate = true;
-                await this.setState('data.roomThermostat.setZoneMode', { val: _zoneMode, ack: true });
+
+                await this.setState('data.roomThermostat.setZoneMode', {
+                    val: _zoneMode,
+                    ack: true,
+                });
+
                 this.getUpdate = false;
             }
 
             if (!this.postUpdate) {
                 this.getUpdate = true;
+
                 await this.setState('data.roomThermostat.setPoint', {
                     val: data.appliances[0].climateZones[0].setPoint,
                     ack: true,
@@ -664,6 +707,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                     val: data.appliances[0].climateZones[0].firePlaceModeActive,
                     ack: true,
                 });
+
                 this.getUpdate = false;
             }
 
@@ -683,7 +727,10 @@ class RemehaHomeAdapter extends utils.Adapter {
             this.log.debug(`Get Device Info Status: ${appliance.statusCode === 200 ? 'OK' : 'failed'}`);
             const applianceInfo = JSON.parse(appliance.body);
 
-            await this.setState('info.applianceName', { val: applianceInfo.applianceName, ack: true });
+            await this.setState('info.applianceName', {
+                val: applianceInfo.applianceName,
+                ack: true,
+            });
             await this.setState('info.deviceType', {
                 val: applianceInfo.internetConnectedGateways[0].deviceTypeName,
                 ack: true,
@@ -715,12 +762,14 @@ class RemehaHomeAdapter extends utils.Adapter {
                 },
             });
             this.log.debug(`Get checkTokenValidity Status: ${response.statusCode === 200 ? 'OK' : 'failed'}`);
+
             await this.setState('info.connection', response.statusCode === 200 ? true : false, true);
             await this.sleep(500);
 
             return response.statusCode;
         } catch (error) {
             this.log.debug(`Token validity check failed. An attempt is being made to obtain a new token: ${error}`);
+
             await this.setState('info.connection', false, true);
             return false;
         }
@@ -748,6 +797,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 'Ocp-Apim-Subscription-Key': 'df605c5470d846fc91e848b1cc653ddf',
                 'x-csrf-token': this.csrfToken,
             };
+
             try {
                 const response = await this.got.get('https://api.bdrthermea.net/Mobile/api/homes/dashboard', {
                     headers: headers,
@@ -758,6 +808,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 const valueSetpoint = responseJson.appliances[0].climateZones[0].setPoint;
                 const valueFireplaceMode = responseJson.appliances[0].climateZones[0].firePlaceModeActive;
                 const valueZoneMode = responseJson.appliances[0].climateZones[0].zoneMode;
+
                 const valueProgNumber =
                     responseJson.appliances[0].climateZones[0].activeHeatingClimateTimeProgramNumber;
 
@@ -814,6 +865,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                                     : postData?.zoneMode === 'Manual'
                                       ? { roomTemperatureSetPoint: valueSetpoint }
                                       : null;
+
                             try {
                                 const postResponse = await this.got.post(
                                     `https://api.bdrthermea.net/Mobile/api/climate-zones/${climateZoneId}/modes/${postData?.value}`,
@@ -833,8 +885,11 @@ class RemehaHomeAdapter extends utils.Adapter {
                         }
                         break;
                 }
+
                 await this.sleep(5000);
+
                 this.postUpdate = true;
+
                 await this.updateDevices();
             } catch (getError) {
                 this.postUpdate = true;
