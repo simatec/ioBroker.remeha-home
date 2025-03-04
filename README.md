@@ -56,6 +56,7 @@ You must enter these in the configuration of the adapter.
 <!-- ### **WORK IN PROGRESS** -->
 ### **WORK IN PROGRESS**
 * (simatec) Code clean
+* (simatec) Dependencies updated
 
 ### 1.0.0 (2025-03-02)
 * (simatec) Fix Update Settings
