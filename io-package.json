@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "news": {
+      "1.0.1": {
+        "en": "Code clean\nDependencies updated",
+        "de": "Code sauber\nAusgaben aktualisiert",
+        "ru": "Код чистый\nОбновленные зависимости",
+        "pt": "Código limpo\nDependências atualizadas",
+        "nl": "Code schoon\nAfhankelijkheden bijgewerkt",
+        "fr": "Code propre\nDépendances actualisées",
+        "it": "Codice pulito\nDipendenze aggiornate",
+        "es": "Código limpio\nActualización de las dependencias",
+        "pl": "Kod czysty\nAktualizacja zależności",
+        "uk": "Код очищення\nЗалежність оновлено",
+        "zh-cn": "代码干净\n更新的依赖关系"
+      },
       "1.0.0": {
         "en": "Fix Update Settings\nRewrite in Typescript",
         "de": "Updateeinstellungen festlegen\nRewrite in Typescript",
@@ -80,19 +93,6 @@
         "pl": "Popraw błąd żądania\nAktualizacja zależności",
         "uk": "Виправлення помилки запиту\nЗалежність оновлено",
         "zh-cn": "修正请求错误\n更新的依赖关系"
-      },
-      "0.2.3": {
-        "en": "Fix jsonConfig\nFix for Admin 7.1.5",
-        "de": "Fehlerbehebung jsonConfig\nFix für Admin 7.1.5",
-        "ru": "Fix jsonConfig\n7.1.5",
-        "pt": "Fixar jsonConfig\nFix para Admin 7.1.5",
-        "nl": "Fix jsonConfig\nFix voor Admin 7.1.5",
-        "fr": "Correction de jsonConfig\nCorrection pour Admin 7.1.5",
-        "it": "Fissare jsonConfig\nFissare per Admin 7.1.5",
-        "es": "Corrección jsonConfig\nCorrección para Admin 7.1.5",
-        "pl": "Napraw jsonConfig\nNaprawiono dla Admin 7.1.5",
-        "uk": "Виправлення jsonConfig\nВиправлення для адміністратора 7.1.5",
-        "zh-cn": "修复 Json 连接\n7.1.5 管理员的固定"
       }
     },
     "titleLang": {
