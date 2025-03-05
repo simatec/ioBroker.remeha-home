@@ -6,8 +6,6 @@ import { URL } from 'url';
 import got from '@esm2cjs/got';
 import { CookieJar } from 'tough-cookie';
 
-let systemLang = 'de';
-
 class RemehaHomeAdapter extends utils.Adapter {
     private account: string;
     private got!: got;
@@ -24,12 +22,14 @@ class RemehaHomeAdapter extends utils.Adapter {
     private password: string;
     private cookieJar: CookieJar;
     private interval: ioBroker.Interval | undefined;
+    private systemLang: string;
 
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({
             ...options,
             name: 'remeha-home',
         });
+        this.systemLang = 'de';
         this.account = '';
         this.password = '';
         this.timerSleep = null;
@@ -56,7 +56,7 @@ class RemehaHomeAdapter extends utils.Adapter {
         const systemConfig = _language['system.config'];
 
         if (systemConfig?.common?.language) {
-            systemLang = systemConfig.common.language;
+            this.systemLang = systemConfig.common.language;
         }
 
         this.account = this.config.account;
@@ -161,9 +161,9 @@ class RemehaHomeAdapter extends utils.Adapter {
             states?: Record<string, string>;
         }
 
-        const scheduling = await _translate('Scheduling', systemLang);
-        const manual = await _translate('Manual', systemLang);
-        const frostProtection = await _translate('FrostProtection', systemLang);
+        const scheduling = await _translate('Scheduling', this.systemLang);
+        const manual = await _translate('Manual', this.systemLang);
+        const frostProtection = await _translate('FrostProtection', this.systemLang);
 
         const states: StateDefinition[] = [
             {
@@ -366,7 +366,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             await this.setObjectNotExistsAsync(state.id, {
                 type: 'state',
                 common: {
-                    name: await _translate(state.name, systemLang),
+                    name: await _translate(state.name, this.systemLang),
                     type: state.type || 'number',
                     role: state.role,
                     unit: state.unit || '',
@@ -620,7 +620,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             const data = JSON.parse(response.body);
 
             const _zoneMode = data.appliances[0].climateZones[0].zoneMode;
-            const _zoneModeTranslate = await _translate(_zoneMode, systemLang);
+            const _zoneModeTranslate = await _translate(_zoneMode, this.systemLang);
 
             await this.setState('data.roomThermostat.roomTemperature', {
                 val: data.appliances[0].climateZones[0].roomTemperature,

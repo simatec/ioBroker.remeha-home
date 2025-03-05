@@ -26,13 +26,13 @@ var import_tools = require("./lib/tools.js");
 var import_url = require("url");
 var import_got = __toESM(require("@esm2cjs/got"));
 var import_tough_cookie = require("tough-cookie");
-let systemLang = "de";
 class RemehaHomeAdapter extends utils.Adapter {
   constructor(options = {}) {
     super({
       ...options,
       name: "remeha-home"
     });
+    this.systemLang = "de";
     this.account = "";
     this.password = "";
     this.timerSleep = null;
@@ -56,7 +56,7 @@ class RemehaHomeAdapter extends utils.Adapter {
     const _language = await this.getForeignObjectsAsync("system.config");
     const systemConfig = _language["system.config"];
     if ((_a = systemConfig == null ? void 0 : systemConfig.common) == null ? void 0 : _a.language) {
-      systemLang = systemConfig.common.language;
+      this.systemLang = systemConfig.common.language;
     }
     this.account = this.config.account;
     this.password = this.config.password;
@@ -136,9 +136,9 @@ class RemehaHomeAdapter extends utils.Adapter {
     });
   }
   async createDevices() {
-    const scheduling = await (0, import_tools._translate)("Scheduling", systemLang);
-    const manual = await (0, import_tools._translate)("Manual", systemLang);
-    const frostProtection = await (0, import_tools._translate)("FrostProtection", systemLang);
+    const scheduling = await (0, import_tools._translate)("Scheduling", this.systemLang);
+    const manual = await (0, import_tools._translate)("Manual", this.systemLang);
+    const frostProtection = await (0, import_tools._translate)("FrostProtection", this.systemLang);
     const states = [
       {
         id: "data.roomThermostat.roomTemperature",
@@ -339,7 +339,7 @@ class RemehaHomeAdapter extends utils.Adapter {
       await this.setObjectNotExistsAsync(state.id, {
         type: "state",
         common: {
-          name: await (0, import_tools._translate)(state.name, systemLang),
+          name: await (0, import_tools._translate)(state.name, this.systemLang),
           type: state.type || "number",
           role: state.role,
           unit: state.unit || "",
@@ -553,7 +553,7 @@ class RemehaHomeAdapter extends utils.Adapter {
       this.log.debug(`Get Update Status: ${response.statusCode === 200 ? "OK" : "failed"}`);
       const data = JSON.parse(response.body);
       const _zoneMode = data.appliances[0].climateZones[0].zoneMode;
-      const _zoneModeTranslate = await (0, import_tools._translate)(_zoneMode, systemLang);
+      const _zoneModeTranslate = await (0, import_tools._translate)(_zoneMode, this.systemLang);
       await this.setState("data.roomThermostat.roomTemperature", {
         val: data.appliances[0].climateZones[0].roomTemperature,
         ack: true

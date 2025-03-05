@@ -25,7 +25,7 @@ export default [
         // you may disable some 'jsdoc' warnings - but using jsdoc is highly recommended
         // as this improves maintainability. jsdoc warnings will not block buiuld process.
         rules: {
-            //'jsdoc/require-jsdoc': 'off',
+            'jsdoc/require-jsdoc': 'off',
             //'no-async-promise-executor': 'off',
             //'prettier/prettier': 'off',
             //'@typescript-eslint/no-unused-vars': 'off',

@@ -36,14 +36,16 @@ __export(tools_exports, {
 module.exports = __toCommonJS(tools_exports);
 var import_crypto = __toESM(require("crypto"));
 async function _translate(word, systemLang) {
-  return new Promise(async (resolve) => {
-    const translations = await Promise.resolve().then(() => __toESM(require(`../../admin/i18n/${systemLang ? systemLang : "en"}/translations.json`)));
-    if (translations[word]) {
-      resolve(translations[word]);
-    } else {
-      console.warn(`Please translate in translations.json: ${word}`);
-      resolve(word);
-    }
+  return new Promise((resolve) => {
+    void (async () => {
+      const translations = await Promise.resolve().then(() => __toESM(require(`../../admin/i18n/${systemLang ? systemLang : "en"}/translations.json`)));
+      if (translations[word]) {
+        resolve(translations[word]);
+      } else {
+        console.warn(`Please translate in translations.json: ${word}`);
+        resolve(word);
+      }
+    })();
   });
 }
 async function generateRandomToken(length) {
