@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "news": {
+      "1.0.2": {
+        "en": "Code Fix\neslint Fix",
+        "de": "Code Fix\neslint Fix",
+        "ru": "Исправление кода\nэслинт Фикс",
+        "pt": "Corrigir código\neslint Fix",
+        "nl": "Codefix\neslint Fix",
+        "fr": "Correction du code\ncorrection de l'essence",
+        "it": "Codice\neslint Fix",
+        "es": "Código\neslint Fix",
+        "pl": "Poprawiono kod\neslint Fix",
+        "uk": "Виправлення коду\neslint виправити",
+        "zh-cn": "代码修补\neslint 修补"
+      },
       "1.0.1": {
         "en": "Code clean\nDependencies updated",
         "de": "Code sauber\nAusgaben aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "Aktualizacja zależności\nNapraw jsonConfig\nDodano działanie\neslint- config dodany",
         "uk": "Залежність оновлено\nВиправлення jsonConfig\nДодана емісія\neslint-config додано",
         "zh-cn": "更新的依赖关系\n修复 Json 连接\n添加的问题行动\n添加埃斯林特配置"
-      },
-      "0.2.4": {
-        "en": "Fix request error\nDependencies updated",
-        "de": "Fehler bei der Anfrage behoben\nAusgaben aktualisiert",
-        "ru": "Ошибка запроса\nОбновленные данные о зависимостях",
-        "pt": "Corrigir erro de solicitação\nDependências atualizadas",
-        "nl": "Fout in verzoek herstellen\nAfhankelijkheden bijgewerkt",
-        "fr": "Correction de l'erreur de requête\nDépendances actualisées",
-        "it": "Correre l'errore di richiesta\nDipendenze aggiornate",
-        "es": "Error de solicitud de corrección\nActualización de las dependencias",
-        "pl": "Popraw błąd żądania\nAktualizacja zależności",
-        "uk": "Виправлення помилки запиту\nЗалежність оновлено",
-        "zh-cn": "修正请求错误\n更新的依赖关系"
       }
     },
     "titleLang": {
