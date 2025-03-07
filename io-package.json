@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "news": {
+      "1.0.4": {
+        "en": "Fix Post Update",
+        "de": "Aktualisierung der Post",
+        "ru": "Обновление Fix Post",
+        "pt": "Corrigir atualização de Post",
+        "nl": "Post bijwerken",
+        "fr": "Correction de la mise à jour",
+        "it": "Aggiornamento dei messaggi",
+        "es": "Actualización de publicación fija",
+        "pl": "Popraw aktualizację poczty",
+        "uk": "Виправлення оновлення повідомлення",
+        "zh-cn": "修正后更新"
+      },
       "1.0.3": {
         "en": "Fix Post Update",
         "de": "Aktualisierung der Post",
@@ -80,19 +93,6 @@
         "pl": "Popraw aktualizację Intervall",
         "uk": "Виправлення оновлення Intervall",
         "zh-cn": "修复更新接口"
-      },
-      "0.2.6": {
-        "en": "eslint-config fix\nDependencies updated\nUpdate License",
-        "de": "eslint-config fix\nAusgaben aktualisiert\nLizenz aktualisieren",
-        "ru": "eslint-конфигурация\nОбновленные данные о зависимостях\nЛицензия обновления",
-        "pt": "eslint-config fix\nDependências atualizadas\nLicença de atualização",
-        "nl": "eslint-config fix\nAfhankelijkheden bijgewerkt\nLicentie bijwerken",
-        "fr": "fixateur eslint-config\nDépendances actualisées\nMettre à jour la licence",
-        "it": "eslint-config fix\nDipendenze aggiornate\nLicenza di aggiornamento",
-        "es": "eslint-config fix\nActualización de las dependencias\nActualizar Licencia",
-        "pl": "fix eslint- config\nAktualizacja zależności\nUaktualnij licencję",
-        "uk": "eslint-config виправити\nЗалежність оновлено\nОновлення ліцензії",
-        "zh-cn": "埃斯林特配置修复\n更新的依赖关系\n更新许可证"
       }
     },
     "titleLang": {
