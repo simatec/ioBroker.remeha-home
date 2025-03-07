@@ -615,16 +615,14 @@ class RemehaHomeAdapter extends utils.Adapter {
         ack: true
       });
       this.log.debug(`postUpdate: ${this.postUpdate}`);
+      this.getUpdate = true;
       if (_zoneMode !== "TemporaryOverride" && !this.postUpdate) {
-        this.getUpdate = true;
         await this.setState("data.roomThermostat.setZoneMode", {
           val: _zoneMode,
           ack: true
         });
-        this.getUpdate = false;
       }
       if (!this.postUpdate) {
-        this.getUpdate = true;
         await this.setState("data.roomThermostat.setPoint", {
           val: data.appliances[0].climateZones[0].setPoint,
           ack: true
@@ -633,9 +631,9 @@ class RemehaHomeAdapter extends utils.Adapter {
           val: data.appliances[0].climateZones[0].firePlaceModeActive,
           ack: true
         });
-        this.getUpdate = false;
       }
       await this.sleep(1e3);
+      this.getUpdate = false;
       const appliance = await this.got.get(
         `https://api.bdrthermea.net/Mobile/api/appliances/${data == null ? void 0 : data.appliances[0].applianceId}/technicaldetails`,
         {
