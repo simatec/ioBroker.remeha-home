@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "news": {
+      "1.0.3": {
+        "en": "Fix Post Update",
+        "de": "Aktualisierung der Post",
+        "ru": "Обновление Fix Post",
+        "pt": "Corrigir atualização de Post",
+        "nl": "Post bijwerken",
+        "fr": "Correction de la mise à jour",
+        "it": "Aggiornamento dei messaggi",
+        "es": "Actualización de publicación fija",
+        "pl": "Popraw aktualizację poczty",
+        "uk": "Виправлення оновлення повідомлення",
+        "zh-cn": "修正后更新"
+      },
       "1.0.2": {
         "en": "Code Fix\neslint Fix",
         "de": "Code Fix\neslint Fix",
@@ -80,19 +93,6 @@
         "pl": "fix eslint- config\nAktualizacja zależności\nUaktualnij licencję",
         "uk": "eslint-config виправити\nЗалежність оновлено\nОновлення ліцензії",
         "zh-cn": "埃斯林特配置修复\n更新的依赖关系\n更新许可证"
-      },
-      "0.2.5": {
-        "en": "Dependencies updated\nFix jsonConfig\nIssue Action added\neslint-config added",
-        "de": "Ausgaben aktualisiert\nFehlerbehebung jsonConfig\nAusgabe Aktion hinzugefügt\neslint-config hinzugefügt",
-        "ru": "Обновленные данные о зависимостях\nFix jsonConfig\nДополнительные меры\nдобавлена eslint-config",
-        "pt": "Dependências atualizadas\nFixar jsonConfig\nAção de problemas adicionada\neslint-config adicionado",
-        "nl": "Afhankelijkheden bijgewerkt\nFix jsonConfig\nOnderwerpactie toegevoegd\neslint-config toegevoegd",
-        "fr": "Dépendances actualisées\nCorrection de jsonConfig\nMesure à prendre\neslint-config ajouté",
-        "it": "Dipendenze aggiornate\nFissare jsonConfig\nAzione di problema aggiunto\neslint-config aggiunto",
-        "es": "Actualización de las dependencias\nCorrección jsonConfig\nTema Acción añadido\neslint-config añadido",
-        "pl": "Aktualizacja zależności\nNapraw jsonConfig\nDodano działanie\neslint- config dodany",
-        "uk": "Залежність оновлено\nВиправлення jsonConfig\nДодана емісія\neslint-config додано",
-        "zh-cn": "更新的依赖关系\n修复 Json 连接\n添加的问题行动\n添加埃斯林特配置"
       }
     },
     "titleLang": {
