@@ -77,7 +77,7 @@ class RemehaHomeAdapter extends utils.Adapter {
     private async onStateChange(id: string, state: ioBroker.State | null | undefined): Promise<void> {
         if (state && !this.getUpdate) {
             if (id === `${this.namespace}.data.roomThermostat.setPoint`) {
-                this.postUpdate = false;
+                this.postUpdate = true;
 
                 if (!state?.ack) {
                     await this.setState('data.roomThermostat.setPoint', { val: state?.val, ack: true });
@@ -90,7 +90,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             }
 
             if (id === `${this.namespace}.data.roomThermostat.setZoneMode`) {
-                this.postUpdate = false;
+                this.postUpdate = true;
 
                 if (!state?.ack) {
                     await this.setState('data.roomThermostat.setZoneMode', { val: state?.val, ack: true });
@@ -117,7 +117,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             }
 
             if (id === `${this.namespace}.data.roomThermostat.firePlaceModeActive`) {
-                this.postUpdate = false;
+                this.postUpdate = true;
 
                 if (!state?.ack) {
                     await this.setState('data.roomThermostat.firePlaceModeActive', { val: state?.val, ack: true });
@@ -888,11 +888,11 @@ class RemehaHomeAdapter extends utils.Adapter {
 
                 await this.sleep(5000);
 
-                this.postUpdate = true;
+                this.postUpdate = false;
 
                 await this.updateDevices();
             } catch (getError) {
-                this.postUpdate = true;
+                this.postUpdate = false;
                 this.log.error(`Error making GET request: ${getError}`);
             }
         }

@@ -72,7 +72,7 @@ class RemehaHomeAdapter extends utils.Adapter {
   async onStateChange(id, state) {
     if (state && !this.getUpdate) {
       if (id === `${this.namespace}.data.roomThermostat.setPoint`) {
-        this.postUpdate = false;
+        this.postUpdate = true;
         if (!(state == null ? void 0 : state.ack)) {
           await this.setState("data.roomThermostat.setPoint", { val: state == null ? void 0 : state.val, ack: true });
         } else {
@@ -83,7 +83,7 @@ class RemehaHomeAdapter extends utils.Adapter {
         }
       }
       if (id === `${this.namespace}.data.roomThermostat.setZoneMode`) {
-        this.postUpdate = false;
+        this.postUpdate = true;
         if (!(state == null ? void 0 : state.ack)) {
           await this.setState("data.roomThermostat.setZoneMode", { val: state == null ? void 0 : state.val, ack: true });
         } else {
@@ -107,7 +107,7 @@ class RemehaHomeAdapter extends utils.Adapter {
         }
       }
       if (id === `${this.namespace}.data.roomThermostat.firePlaceModeActive`) {
-        this.postUpdate = false;
+        this.postUpdate = true;
         if (!(state == null ? void 0 : state.ack)) {
           await this.setState("data.roomThermostat.firePlaceModeActive", { val: state == null ? void 0 : state.val, ack: true });
         } else {
@@ -777,10 +777,10 @@ class RemehaHomeAdapter extends utils.Adapter {
             break;
         }
         await this.sleep(5e3);
-        this.postUpdate = true;
+        this.postUpdate = false;
         await this.updateDevices();
       } catch (getError) {
-        this.postUpdate = true;
+        this.postUpdate = false;
         this.log.error(`Error making GET request: ${getError}`);
       }
     }
