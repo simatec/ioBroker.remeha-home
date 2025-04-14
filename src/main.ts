@@ -687,21 +687,35 @@ class RemehaHomeAdapter extends utils.Adapter {
             this.getUpdate = true;
 
             if (_zoneMode !== 'TemporaryOverride' && !this.postUpdate) {
-                await this.setState('data.roomThermostat.setZoneMode', {
-                    val: _zoneMode,
-                    ack: true,
-                });
+                const stateZoneMode = await this.getStateAsync('data.roomThermostat.setZoneMode');
+
+                if (stateZoneMode?.val !== _zoneMode) {
+                    await this.setState('data.roomThermostat.setZoneMode', {
+                        val: _zoneMode,
+                        ack: true,
+                    });
+                    this.log.debug(`new ZoneMode is: ${_zoneMode}`);
+                }
             }
 
-            if (!this.postUpdate) {
+            const stateSetPoint = await this.getStateAsync('data.roomThermostat.setPoint');
+
+            if (stateSetPoint?.val !== data.appliances[0].climateZones[0].setPoint && !this.postUpdate) {
                 await this.setState('data.roomThermostat.setPoint', {
                     val: data.appliances[0].climateZones[0].setPoint,
                     ack: true,
                 });
+                this.log.debug(`new setPoint is: ${data.appliances[0].climateZones[0].setPoint} °C`);
+            }
+
+            const stateFirePlace = await this.getStateAsync('data.roomThermostat.firePlaceModeActive');
+
+            if (stateFirePlace?.val !== data.appliances[0].climateZones[0].firePlaceModeActive && !this.postUpdate) {
                 await this.setState('data.roomThermostat.firePlaceModeActive', {
                     val: data.appliances[0].climateZones[0].firePlaceModeActive,
                     ack: true,
                 });
+                this.log.debug(`new firePlaceMode is: ${data.appliances[0].climateZones[0].firePlaceModeActive}`);
             }
 
             await this.sleep(1000);
