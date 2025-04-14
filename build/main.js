@@ -35,7 +35,6 @@ class RemehaHomeAdapter extends utils.Adapter {
     this.systemLang = "de";
     this.account = "";
     this.password = "";
-    this.timerSleep = null;
     this.pollInterval = 60;
     this.accessToken = null;
     this.refreshToken = null;
@@ -123,17 +122,11 @@ class RemehaHomeAdapter extends utils.Adapter {
     try {
       await this.setState("info.connection", false, true);
       this.clearInterval(this.interval);
-      this.clearTimeout(this.timerSleep);
       callback();
     } catch (e) {
       this.log.error(`Error on unload: ${e}`);
       callback();
     }
-  }
-  async sleep(ms) {
-    return new Promise((resolve) => {
-      this.timerSleep = this.setTimeout(() => resolve(), ms);
-    });
   }
   async createDevices() {
     const scheduling = await (0, import_tools._translate)("Scheduling", this.systemLang);
@@ -642,7 +635,7 @@ class RemehaHomeAdapter extends utils.Adapter {
         });
         this.log.debug(`new firePlaceMode is: ${data.appliances[0].climateZones[0].firePlaceModeActive}`);
       }
-      await this.sleep(1e3);
+      await this.delay(1e3);
       this.getUpdate = false;
       const appliance = await this.got.get(
         `https://api.bdrthermea.net/Mobile/api/appliances/${data == null ? void 0 : data.appliances[0].applianceId}/technicaldetails`,
@@ -691,7 +684,7 @@ class RemehaHomeAdapter extends utils.Adapter {
       });
       this.log.debug(`Get checkTokenValidity Status: ${response.statusCode === 200 ? "OK" : "failed"}`);
       await this.setState("info.connection", response.statusCode === 200 ? true : false, true);
-      await this.sleep(500);
+      await this.delay(500);
       return response.statusCode;
     } catch (error) {
       this.log.debug(`Token validity check failed. An attempt is being made to obtain a new token: ${error}`);
@@ -721,7 +714,7 @@ class RemehaHomeAdapter extends utils.Adapter {
         const valueFireplaceMode = responseJson.appliances[0].climateZones[0].firePlaceModeActive;
         const valueZoneMode = responseJson.appliances[0].climateZones[0].zoneMode;
         const valueProgNumber = responseJson.appliances[0].climateZones[0].activeHeatingClimateTimeProgramNumber;
-        await this.sleep(1e3);
+        await this.delay(1e3);
         switch (type) {
           case "setPoint":
             if (valueZoneMode !== "Manual" || valueSetpoint !== (postData == null ? void 0 : postData.roomTemperatureSetPoint)) {
@@ -784,7 +777,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             }
             break;
         }
-        await this.sleep(5e3);
+        await this.delay(5e3);
         this.postUpdate = false;
         await this.updateDevices();
       } catch (getError) {

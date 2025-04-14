@@ -10,7 +10,6 @@ class RemehaHomeAdapter extends utils.Adapter {
     private account: string;
     private got!: got;
     private client!: got;
-    private timerSleep: ioBroker.Timeout | undefined;
     private pollInterval: number;
     private accessToken: string | null;
     private refreshToken: string | null;
@@ -32,7 +31,6 @@ class RemehaHomeAdapter extends utils.Adapter {
         this.systemLang = 'de';
         this.account = '';
         this.password = '';
-        this.timerSleep = null;
         this.pollInterval = 60;
         this.accessToken = null;
         this.refreshToken = null;
@@ -135,18 +133,11 @@ class RemehaHomeAdapter extends utils.Adapter {
         try {
             await this.setState('info.connection', false, true);
             this.clearInterval(this.interval);
-            this.clearTimeout(this.timerSleep);
             callback();
         } catch (e) {
             this.log.error(`Error on unload: ${e}`);
             callback();
         }
-    }
-
-    private async sleep(ms: number): Promise<void> {
-        return new Promise(resolve => {
-            this.timerSleep = this.setTimeout(() => resolve(), ms);
-        });
     }
 
     private async createDevices(): Promise<void> {
@@ -718,7 +709,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 this.log.debug(`new firePlaceMode is: ${data.appliances[0].climateZones[0].firePlaceModeActive}`);
             }
 
-            await this.sleep(1000);
+            await this.delay(1000);
             this.getUpdate = false;
 
             const appliance = await this.got.get(
@@ -772,7 +763,7 @@ class RemehaHomeAdapter extends utils.Adapter {
             this.log.debug(`Get checkTokenValidity Status: ${response.statusCode === 200 ? 'OK' : 'failed'}`);
 
             await this.setState('info.connection', response.statusCode === 200 ? true : false, true);
-            await this.sleep(500);
+            await this.delay(500);
 
             return response.statusCode;
         } catch (error) {
@@ -820,7 +811,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 const valueProgNumber =
                     responseJson.appliances[0].climateZones[0].activeHeatingClimateTimeProgramNumber;
 
-                await this.sleep(1000);
+                await this.delay(1000);
 
                 switch (type) {
                     case 'setPoint':
@@ -894,7 +885,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                         break;
                 }
 
-                await this.sleep(5000);
+                await this.delay(5000);
 
                 this.postUpdate = false;
 
