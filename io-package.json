@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "news": {
+      "1.0.5": {
+        "en": "Dependencies updated\nFix Post Update\nAdapter delay added",
+        "de": "Ausgaben aktualisiert\nAktualisierung der Post\nAdapterverzögerung hinzugefügt",
+        "ru": "Обновленные зависимости\nОбновление Fix Post\nАдаптивная задержка добавлена",
+        "pt": "Dependências atualizadas\nCorrigir atualização de Post\nAtraso do adaptador adicionado",
+        "nl": "Afhankelijkheden bijgewerkt\nPost bijwerken\nAdaptervertraging toegevoegd",
+        "fr": "Dépendances actualisées\nCorrection de la mise à jour\nDélai de l'adaptateur ajouté",
+        "it": "Dipendenze aggiornate\nAggiornamento dei messaggi\nRitardo adattatore aggiunto",
+        "es": "Actualización de las dependencias\nActualización de publicación fija\nRetraso del adaptador añadido",
+        "pl": "Aktualizacja zależności\nPopraw aktualizację poczty\nDodano opóźnienie adaptera",
+        "uk": "Залежність оновлено\nВиправлення оновлення повідомлення\nЗатримка адаптера додано",
+        "zh-cn": "更新的依赖关系\n修正后更新\n添加适应器延迟"
+      },
       "1.0.4": {
         "en": "Fix Post Update",
         "de": "Aktualisierung der Post",
@@ -80,19 +93,6 @@
         "pl": "Aktualizacja zależności\nmały Fix",
         "uk": "Залежність оновлено\nмали",
         "zh-cn": "更新的依赖关系\n小修补"
-      },
-      "0.2.7": {
-        "en": "Fix Update Intervall",
-        "de": "Reparieren Sie das Update",
-        "ru": "Интервал обновлений",
-        "pt": "Intervall de atualização de correção",
-        "nl": "Bijwerken Intervall herstellen",
-        "fr": "Correction de la mise à jour Intervall",
-        "it": "Risolvere l'aggiornamento Intervall",
-        "es": "Intervall de actualización fija",
-        "pl": "Popraw aktualizację Intervall",
-        "uk": "Виправлення оновлення Intervall",
-        "zh-cn": "修复更新接口"
       }
     },
     "titleLang": {

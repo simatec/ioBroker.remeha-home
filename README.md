@@ -54,7 +54,7 @@ You must enter these in the configuration of the adapter.
 
 ## Changelog
 <!-- ### **WORK IN PROGRESS** -->
-### **WORK IN PROGRESS**
+### 1.0.5 (2025-04-15)
 * (simatec) Dependencies updated
 * (simatec) Fix Post Update
 * (simatec) Adapter delay added
