@@ -7,39 +7,27 @@ import got from '@esm2cjs/got';
 import { CookieJar } from 'tough-cookie';
 
 class RemehaHomeAdapter extends utils.Adapter {
-    private account: string;
+    private account: string = '';
     private got!: got;
     private client!: got;
-    private pollInterval: number;
-    private accessToken: string | null;
-    private refreshToken: string | null;
-    private csrfToken: string;
-    private codeChallenge: string | null;
-    private state: string | null;
-    private postUpdate: boolean;
-    private getUpdate: boolean;
-    private password: string;
-    private cookieJar: CookieJar;
+    private pollInterval: number = 60;
+    private accessToken: string | null = null;
+    private refreshToken: string | null = null;
+    private csrfToken: string = '';
+    private codeChallenge: string | null = null;
+    private state: string | null = '';
+    private postUpdate: boolean = false;
+    private getUpdate: boolean = false;
+    private password: string = '';
+    private cookieJar: CookieJar = new CookieJar();
     private interval: ioBroker.Interval | undefined;
-    private systemLang: string;
+    private systemLang: string = 'de';
 
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({
             ...options,
             name: 'remeha-home',
         });
-        this.systemLang = 'de';
-        this.account = '';
-        this.password = '';
-        this.pollInterval = 60;
-        this.accessToken = null;
-        this.refreshToken = null;
-        this.csrfToken = '';
-        this.codeChallenge = null;
-        this.state = '';
-        this.postUpdate = false;
-        this.getUpdate = false;
-        this.cookieJar = new CookieJar();
         void this.loadGot();
 
         this.on('ready', this.onReady.bind(this));
@@ -141,22 +129,11 @@ class RemehaHomeAdapter extends utils.Adapter {
     }
 
     private async createDevices(): Promise<void> {
-        interface StateDefinition {
-            id: string;
-            name: string;
-            type: 'number' | 'string' | 'boolean' | 'array' | 'object';
-            role: string;
-            unit?: string;
-            read: boolean;
-            write: boolean;
-            states?: Record<string, string>;
-        }
-
         const scheduling = await _translate('Scheduling', this.systemLang);
         const manual = await _translate('Manual', this.systemLang);
         const frostProtection = await _translate('FrostProtection', this.systemLang);
 
-        const states: StateDefinition[] = [
+        const states: ioBroker.StateDefinition[] = [
             {
                 id: 'data.roomThermostat.roomTemperature',
                 name: 'Room Temperature',

@@ -8,6 +8,16 @@ declare global {
             password: string;
             pollInterval: number;
 		}
+		interface StateDefinition {
+            id: string;
+            name: string;
+            type: 'number' | 'string' | 'boolean' | 'array' | 'object';
+            role: string;
+            unit?: string;
+            read: boolean;
+            write: boolean;
+            states?: Record<string, string>;
+        }
 	}
 }
 
