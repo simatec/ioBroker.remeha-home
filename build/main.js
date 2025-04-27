@@ -32,9 +32,7 @@ class RemehaHomeAdapter extends utils.Adapter {
       ...options,
       name: "remeha-home"
     });
-    this.systemLang = "de";
     this.account = "";
-    this.password = "";
     this.pollInterval = 60;
     this.accessToken = null;
     this.refreshToken = null;
@@ -43,7 +41,9 @@ class RemehaHomeAdapter extends utils.Adapter {
     this.state = "";
     this.postUpdate = false;
     this.getUpdate = false;
+    this.password = "";
     this.cookieJar = new import_tough_cookie.CookieJar();
+    this.systemLang = "de";
     void this.loadGot();
     this.on("ready", this.onReady.bind(this));
     this.on("unload", this.onUnload.bind(this));
