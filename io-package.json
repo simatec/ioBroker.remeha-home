@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "news": {
+      "1.0.6": {
+        "en": "Code fix",
+        "de": "Code fix",
+        "ru": "Исправление кода",
+        "pt": "Correção de código",
+        "nl": "Codefix",
+        "fr": "Fixation du code",
+        "it": "Codice di correzione",
+        "es": "Código",
+        "pl": "Ustawienie kodu",
+        "uk": "Виправлення коду",
+        "zh-cn": "代码修正"
+      },
       "1.0.5": {
         "en": "Dependencies updated\nFix Post Update\nAdapter delay added",
         "de": "Ausgaben aktualisiert\nAktualisierung der Post\nAdapterverzögerung hinzugefügt",
@@ -80,19 +93,6 @@
         "pl": "Napraw ustawienia aktualizacji\nPrzepisz na maszynie",
         "uk": "Виправлення параметрів оновлення\nРевізити в Typescript",
         "zh-cn": "修正更新设置\n在字体中重写"
-      },
-      "0.2.8": {
-        "en": "Dependencies updated\nsmall Fix",
-        "de": "Ausgaben aktualisiert\nkleiner Fix",
-        "ru": "Обновленные зависимости\nмаленький фикс",
-        "pt": "Dependências atualizadas\npequena fixação",
-        "nl": "Afhankelijkheden bijgewerkt\nkleine Fix",
-        "fr": "Dépendances actualisées\npetite Fix",
-        "it": "Dipendenze aggiornate\npiccolo fissaggio",
-        "es": "Actualización de las dependencias\npequeño",
-        "pl": "Aktualizacja zależności\nmały Fix",
-        "uk": "Залежність оновлено\nмали",
-        "zh-cn": "更新的依赖关系\n小修补"
       }
     },
     "titleLang": {
