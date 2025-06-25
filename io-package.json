@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "news": {
+      "1.0.7": {
+        "en": "Dependencies updated\nReady for NodeJS 24.x",
+        "de": "Ausgaben aktualisiert\nBereit für NodeJS 24.x",
+        "ru": "Обновленные зависимости\nГотовность к NodeJS 24.x",
+        "pt": "Dependências atualizadas\nPronto para NodeJS 24.x",
+        "nl": "Afhankelijkheden bijgewerkt\nKlaar voor NodeJS 24.x",
+        "fr": "Dépendances actualisées\nPrêt pour NodeJS 24.x",
+        "it": "Dipendenze aggiornate\nPronti per NodeJS 24.x",
+        "es": "Actualización de las dependencias\nListo para NodeJS 24.x",
+        "pl": "Aktualizacja zależności\nGotowy do NodeJS 24.x",
+        "uk": "Залежність оновлено\nГотовий для NodeJS 24.x",
+        "zh-cn": "更新的依赖关系\n准备进入节点JS 24.x"
+      },
       "1.0.6": {
         "en": "Code fix",
         "de": "Code fix",
@@ -80,19 +93,6 @@
         "pl": "Kod czysty\nAktualizacja zależności",
         "uk": "Код очищення\nЗалежність оновлено",
         "zh-cn": "代码干净\n更新的依赖关系"
-      },
-      "1.0.0": {
-        "en": "Fix Update Settings\nRewrite in Typescript",
-        "de": "Updateeinstellungen festlegen\nRewrite in Typescript",
-        "ru": "Настройки обновлений Fix\nПереписать в Typescript",
-        "pt": "Definir configurações de atualização\nReescrever no Typescript",
-        "nl": "Updateinstellingen herstellen\nHerschrijven in typescript",
-        "fr": "Correction des paramètres de mise à jour\nRéécrire dans Typescript",
-        "it": "Impostazioni di aggiornamento\nRiscrivi in Tipografia",
-        "es": "Ajustes de actualización\nReescribir en Tiposcript",
-        "pl": "Napraw ustawienia aktualizacji\nPrzepisz na maszynie",
-        "uk": "Виправлення параметрів оновлення\nРевізити в Typescript",
-        "zh-cn": "修正更新设置\n在字体中重写"
       }
     },
     "titleLang": {
