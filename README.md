@@ -54,6 +54,9 @@ You must enter these in the configuration of the adapter.
 
 ## Changelog
 <!-- ### **WORK IN PROGRESS** -->
+### **WORK IN PROGRESS**
+* (simatec) Dependencies updated
+
 ### 1.0.7 (2025-06-25)
 * (simatec) Dependencies updated
 * (simatec) Ready for NodeJS 24.x
