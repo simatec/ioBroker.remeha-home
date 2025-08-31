@@ -1,6 +1,6 @@
 {
   "name": "iobroker.remeha-home",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Connect your Remeha Home System with ioBroker",
   "author": {
     "name": "simatec",

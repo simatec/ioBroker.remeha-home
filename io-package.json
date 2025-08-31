@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "news": {
+      "1.0.8": {
+        "en": "Dependencies updated",
+        "de": "Ausgaben aktualisiert",
+        "ru": "Обновленные зависимости",
+        "pt": "Dependências atualizadas",
+        "nl": "Afhankelijkheden bijgewerkt",
+        "fr": "Dépendances actualisées",
+        "it": "Dipendenze aggiornate",
+        "es": "Actualización de las dependencias",
+        "pl": "Aktualizacja zależności",
+        "uk": "Залежність оновлено",
+        "zh-cn": "更新的依赖关系"
+      },
       "1.0.7": {
         "en": "Dependencies updated\nReady for NodeJS 24.x",
         "de": "Ausgaben aktualisiert\nBereit für NodeJS 24.x",
@@ -80,19 +93,6 @@
         "pl": "Poprawiono kod\neslint Fix",
         "uk": "Виправлення коду\neslint виправити",
         "zh-cn": "代码修补\neslint 修补"
-      },
-      "1.0.1": {
-        "en": "Code clean\nDependencies updated",
-        "de": "Code sauber\nAusgaben aktualisiert",
-        "ru": "Код чистый\nОбновленные зависимости",
-        "pt": "Código limpo\nDependências atualizadas",
-        "nl": "Code schoon\nAfhankelijkheden bijgewerkt",
-        "fr": "Code propre\nDépendances actualisées",
-        "it": "Codice pulito\nDipendenze aggiornate",
-        "es": "Código limpio\nActualización de las dependencias",
-        "pl": "Kod czysty\nAktualizacja zależności",
-        "uk": "Код очищення\nЗалежність оновлено",
-        "zh-cn": "代码干净\n更新的依赖关系"
       }
     },
     "titleLang": {
