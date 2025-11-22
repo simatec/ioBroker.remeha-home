@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "news": {
+      "1.0.9": {
+        "en": "dependencies updated\nFix Test & Release",
+        "de": "aktualisierte abhängigkeiten\nTest und Release",
+        "ru": "обновленные зависимости\nСкачать Test & Release",
+        "pt": "dependências atualizadas\nCorrigir teste e liberação",
+        "nl": "afhankelijkheden bijgewerkt\nRepareren Test & Release",
+        "fr": "dépendances mises à jour\nCorrection du test et de la libération",
+        "it": "dipendenze aggiornate\nProva di correzione e rilascio",
+        "es": "dependencias actualizadas\nReparación de prueba",
+        "pl": "zaktualizowane zależności\nNapraw test i wydaj",
+        "uk": "оновлені залежності\nТестування та реліз",
+        "zh-cn": "更新依赖关系\n修复测试和释放"
+      },
       "1.0.8": {
         "en": "Dependencies updated",
         "de": "Ausgaben aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "Popraw aktualizację poczty",
         "uk": "Виправлення оновлення повідомлення",
         "zh-cn": "修正后更新"
-      },
-      "1.0.2": {
-        "en": "Code Fix\neslint Fix",
-        "de": "Code Fix\neslint Fix",
-        "ru": "Исправление кода\nэслинт Фикс",
-        "pt": "Corrigir código\neslint Fix",
-        "nl": "Codefix\neslint Fix",
-        "fr": "Correction du code\ncorrection de l'essence",
-        "it": "Codice\neslint Fix",
-        "es": "Código\neslint Fix",
-        "pl": "Poprawiono kod\neslint Fix",
-        "uk": "Виправлення коду\neslint виправити",
-        "zh-cn": "代码修补\neslint 修补"
       }
     },
     "titleLang": {
