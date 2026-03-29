@@ -54,7 +54,7 @@ You must enter these in the configuration of the adapter.
 
 ## Changelog
 <!-- ### **WORK IN PROGRESS** -->
-### **WORK IN PROGRESS**
+### 1.0.10 (2026-03-29)
 * (simatec) Fix License
 * (simatec) dependencies updated
 * (simatec) Fix automerge

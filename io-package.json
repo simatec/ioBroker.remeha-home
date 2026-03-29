@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "news": {
+      "1.0.10": {
+        "en": "Fix License\ndependencies updated\nFix automerge",
+        "de": "Lizenzierung aktivieren\naktualisierte abhängigkeiten\nAutomerge",
+        "ru": "Лицензия Fix\nобновленные зависимости\nФиксировать автомерж",
+        "pt": "Licença de correção\ndependências atualizadas\nCorrigir a fusão automática",
+        "nl": "Fix Licentie\nafhankelijkheden bijgewerkt\nAutomerge herstellen",
+        "fr": "Correction de la licence\ndépendances mises à jour\nCorrection de la fusion automatique",
+        "it": "Fissare la licenza\ndipendenze aggiornate\nRisolvere l'automergenza",
+        "es": "Fijar licencia\ndependencias actualizadas\nFijar automerge",
+        "pl": "Napraw licencję\nzaktualizowane zależności\nNapraw automat",
+        "uk": "Документація\nоновлені залежності\nВиправлення автомержа",
+        "zh-cn": "修补许可证\n更新依赖关系\n自动修正"
+      },
       "1.0.9": {
         "en": "dependencies updated\nFix Test & Release",
         "de": "aktualisierte abhängigkeiten\nTest und Release",
@@ -69,19 +82,6 @@
         "zh-cn": "更新的依赖关系\n修正后更新\n添加适应器延迟"
       },
       "1.0.4": {
-        "en": "Fix Post Update",
-        "de": "Aktualisierung der Post",
-        "ru": "Обновление Fix Post",
-        "pt": "Corrigir atualização de Post",
-        "nl": "Post bijwerken",
-        "fr": "Correction de la mise à jour",
-        "it": "Aggiornamento dei messaggi",
-        "es": "Actualización de publicación fija",
-        "pl": "Popraw aktualizację poczty",
-        "uk": "Виправлення оновлення повідомлення",
-        "zh-cn": "修正后更新"
-      },
-      "1.0.3": {
         "en": "Fix Post Update",
         "de": "Aktualisierung der Post",
         "ru": "Обновление Fix Post",
