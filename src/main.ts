@@ -2,7 +2,7 @@
 
 import * as utils from '@iobroker/adapter-core';
 import { _translate, generateRandomToken, computeCodeChallenge, randomBytes } from './lib/tools.js';
-import { URL } from 'url';
+import { URL } from 'node:url';
 import got from '@esm2cjs/got';
 import { CookieJar } from 'tough-cookie';
 

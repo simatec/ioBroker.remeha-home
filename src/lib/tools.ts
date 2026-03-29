@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 export async function _translate(word: string, systemLang: string): Promise<string> {
     return new Promise(resolve => {
