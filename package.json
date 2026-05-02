@@ -21,7 +21,7 @@
     "url": "https://github.com/simatec/ioBroker.remeha-home.git"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 22"
   },
   "dependencies": {
     "@esm2cjs/got": "^13.0.0",
