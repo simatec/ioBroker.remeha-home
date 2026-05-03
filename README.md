@@ -152,6 +152,8 @@ You must enter these in the configuration of the adapter.
 * (simatec) First Commit
 ---
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 MIT License
