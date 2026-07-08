@@ -26,7 +26,7 @@
   "dependencies": {
     "@esm2cjs/got": "^13.0.0",
     "@iobroker/adapter-core": "^3.3.2",
-    "tough-cookie": "^6.0.1",
+    "tough-cookie": "^6.0.2",
     "url": "^0.11.4"
   },
   "devDependencies": {
