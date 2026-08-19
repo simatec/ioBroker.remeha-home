@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "remeha-home",
-    "version": "1.0.10",
+    "version": "1.1.0",
     "news": {
+      "1.1.0": {
+        "en": "Adapter requires node.js >= 22 now\ndependencies updated\nsmall Bugfixes",
+        "de": "Der Adapter benötigt jetzt Node.js >= 22.\nAbhängigkeiten aktualisiert\nkleinere Fehlerbehebungen",
+        "ru": "Для работы адаптера требуется Node.js версии >= 22.\nЗависимости обновлены\nнебольшие исправления ошибок",
+        "pt": "O adaptador agora requer Node.js >= 22.\ndependências atualizadas\nPequenas correções de bugs",
+        "nl": "De adapter vereist nu Node.js versie 22 of hoger.\nafhankelijkheden bijgewerkt\nkleine bugfixes",
+        "fr": "L'adaptateur nécessite désormais Node.js >= 22.\ndépendances mises à jour\nCorrections de bugs mineurs",
+        "it": "L'adattatore ora richiede Node.js >= 22\ndipendenze aggiornate\nPiccole correzioni di bug",
+        "es": "El adaptador ahora requiere node.js >= 22.\ndependencias actualizadas\nPequeñas correcciones de errores",
+        "pl": "Adapter wymaga teraz node.js >= 22\nzależności zaktualizowane\nmałe poprawki błędów",
+        "uk": "Адаптер тепер вимагає node.js >= 22\nзалежності оновлено\nневеликі виправлення помилок",
+        "zh-cn": "适配器现在需要 node.js 版本 >= 22。\n依赖项已更新\n修复了一些小错误"
+      },
       "1.0.10": {
         "en": "Fix License\ndependencies updated\nFix automerge",
         "de": "Lizenzierung aktivieren\naktualisierte Abhängigkeiten\nAutomerge",
@@ -80,19 +93,6 @@
         "pl": "Aktualizacja zależności\nPopraw aktualizację poczty\nDodano opóźnienie adaptera",
         "uk": "Залежність оновлено\nВиправлення оновлення повідомлення\nЗатримка адаптера додано",
         "zh-cn": "更新的依赖关系\n修正后更新\n添加适应器延迟"
-      },
-      "1.0.4": {
-        "en": "Fix Post Update",
-        "de": "Aktualisierung der Post",
-        "ru": "Обновление Fix Post",
-        "pt": "Corrigir atualização de Post",
-        "nl": "Post bijwerken",
-        "fr": "Correction de la mise à jour",
-        "it": "Aggiornamento dei messaggi",
-        "es": "Actualización de publicación fija",
-        "pl": "Popraw aktualizację poczty",
-        "uk": "Виправлення оновлення повідомлення",
-        "zh-cn": "修正后更新"
       }
     },
     "titleLang": {
