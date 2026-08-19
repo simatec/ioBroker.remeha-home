@@ -418,6 +418,7 @@ class RemehaHomeAdapter extends utils.Adapter {
                 if (csrfTokenCookie) {
                     this.csrfToken = csrfTokenCookie.split(';')[0].replace('x-ms-cpim-csrf=', '').replace(/;$/, '');
                 } else {
+                    // eslint-disable-next-line @typescript-eslint/only-throw-error
                     throw new Error('CSRF-Token not found in response headers.');
                 }
             }
@@ -435,6 +436,7 @@ class RemehaHomeAdapter extends utils.Adapter {
 
             const authorizationCode = await this.login(stateProperties, this.csrfToken);
 
+            // eslint-disable-next-line @typescript-eslint/only-throw-error
             if (!authorizationCode) throw new Error('Authorization code is missing.');
 
             await this.fetchAccessToken(authorizationCode);

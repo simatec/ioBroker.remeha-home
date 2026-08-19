@@ -23,7 +23,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var utils = __toESM(require("@iobroker/adapter-core"));
 var import_tools = require("./lib/tools.js");
-var import_url = require("url");
+var import_node_url = require("node:url");
 var import_got = __toESM(require("@esm2cjs/got"));
 var import_tough_cookie = require("tough-cookie");
 class RemehaHomeAdapter extends utils.Adapter {
@@ -462,7 +462,7 @@ class RemehaHomeAdapter extends utils.Adapter {
         }
       );
       this.log.debug(`Get Login Status: ${response.statusCode === 302 ? "OK" : "failed"}`);
-      const parsedCallbackUrl = new import_url.URL(response.headers.location);
+      const parsedCallbackUrl = new import_node_url.URL(response.headers.location);
       if (parsedCallbackUrl) {
         const queryStringDict = parsedCallbackUrl.searchParams;
         const code = queryStringDict.get("code");

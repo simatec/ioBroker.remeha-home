@@ -5,7 +5,7 @@
     "news": {
       "1.0.10": {
         "en": "Fix License\ndependencies updated\nFix automerge",
-        "de": "Lizenzierung aktivieren\naktualisierte abhängigkeiten\nAutomerge",
+        "de": "Lizenzierung aktivieren\naktualisierte Abhängigkeiten\nAutomerge",
         "ru": "Лицензия Fix\nобновленные зависимости\nФиксировать автомерж",
         "pt": "Licença de correção\ndependências atualizadas\nCorrigir a fusão automática",
         "nl": "Fix Licentie\nafhankelijkheden bijgewerkt\nAutomerge herstellen",
@@ -57,7 +57,7 @@
       },
       "1.0.6": {
         "en": "Code fix",
-        "de": "Code fix",
+        "de": "Sourcecode gefixt",
         "ru": "Исправление кода",
         "pt": "Correção de código",
         "nl": "Codefix",

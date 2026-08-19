@@ -34,7 +34,7 @@ __export(tools_exports, {
   randomBytes: () => randomBytes
 });
 module.exports = __toCommonJS(tools_exports);
-var import_crypto = __toESM(require("crypto"));
+var import_node_crypto = __toESM(require("node:crypto"));
 async function _translate(word, systemLang) {
   return new Promise((resolve) => {
     void (async () => {
@@ -50,13 +50,13 @@ async function _translate(word, systemLang) {
 }
 async function generateRandomToken(length) {
   return new Promise((resolve) => {
-    const randomToken = import_crypto.default.randomBytes(length).toString("base64url");
+    const randomToken = import_node_crypto.default.randomBytes(length).toString("base64url");
     resolve(randomToken);
   });
 }
 async function computeCodeChallenge(token) {
   return new Promise((resolve) => {
-    const hash = import_crypto.default.createHash("sha256");
+    const hash = import_node_crypto.default.createHash("sha256");
     hash.update(token);
     const digest = hash.digest();
     const base64Url = digest.toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
@@ -65,7 +65,7 @@ async function computeCodeChallenge(token) {
 }
 async function randomBytes(length) {
   return new Promise((resolve) => {
-    const _randomBytes = import_crypto.default.randomBytes(length).toString("base64url");
+    const _randomBytes = import_node_crypto.default.randomBytes(length).toString("base64url");
     resolve(_randomBytes);
   });
 }
