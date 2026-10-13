@@ -53,7 +53,9 @@ You must enter these in the configuration of the adapter.
 ---
 
 ## Changelog
-<!-- ### **WORK IN PROGRESS** -->
+### **WORK IN PROGRESS**
+* (turnitoffandon42) Fix outdoor temperature (Remeha API change)
+
 ### 1.1.0 (2026-08-19)
 * (copilot) Adapter requires node.js >= 22 now
 * (simatec) dependencies updated
