@@ -552,7 +552,7 @@ class RemehaHomeAdapter extends utils.Adapter {
         ack: true
       });
       await this.setState("data.dhw.outdoorTemperature", {
-        val: data.appliances[0].outdoorTemperature,
+        val: data.appliances[0].outdoorTemperatureInformation?.applianceOutdoorTemperature ?? null,
         ack: true
       });
       await this.setState("data.dhw.waterPressure", {
